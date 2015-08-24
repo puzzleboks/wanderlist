@@ -9,3 +9,8 @@ body {
 #map {
   width: 100%;
 }
+
+.bar {
+  display: flex;
+  align-items: center;
+}
