@@ -13,10 +13,17 @@ router.get("/users", function(req,res){
   });
 });
 
+router.post("/users", function(req, res){
+  User.create(req.body).then(function(user){
+    res.json(user);
+  });
+});
+
 router.get("/users/:id", function(req, res){
   User.findById(req.params.id).then(function(user){
+    if(!user) return error(res, "not found");
     res.json(user);
-  })
+  });
 });
 
 router.get("/users/:id/pins", function(req,res){
@@ -28,5 +35,22 @@ router.get("/users/:id/pins", function(req,res){
   })
 });
 
+router.patch("/users/:id", function(req, res){
+  User.findById(req.params.id).then(function(user){
+    if(!user) return error(res, "not found");
+    user.updateAttributes(req.body).then(function(updatedUser){
+      res.json(updatedUser);
+    });
+  });
+});
+
+router.delete("/users/:id", function(req, res){
+  User.findById(req.params.id).then(function(user){
+    if(!user) return error(res, "not found");
+    user.destroy().then(function(){
+      res.json({success: true});
+    });
+  });
+});
 
 module.exports = router;
