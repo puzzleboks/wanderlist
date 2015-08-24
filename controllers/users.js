@@ -13,9 +13,6 @@ router.get("/users", function(req,res){
   });
 })
 
-router.post("/users", function(req,res){
-})
-
 
 
 module.exports = router;
