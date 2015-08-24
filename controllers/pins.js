@@ -36,6 +36,13 @@ router.patch("/pin/:id", function(req, res){
   });
 });
 
+router.post("users/:id/pins", function(req,res){
+  Pin.create(req.body).then(function(pin){
+    res.json(pin);
+  });
+
+})
+
 router.delete("/pins/:id", function(req, res){
   Pin.findById(req.params.id).then(function(pin){
     if(!pin) return error(res, "not found");

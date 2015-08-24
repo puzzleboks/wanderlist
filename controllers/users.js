@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var User = require("../db/connection").models.User;
+var Pin = require("../db/connection").models.Pin;
 
 function error(response, message){
   response.status(500);
@@ -33,6 +34,13 @@ router.get("/users/:id/pins", function(req,res){
       res.send(pins);
     })
   })
+});
+
+router.get("/users/:userId/pins/:id", function(req,res){
+  Pin.findById(req.params.id).then(function(pin){
+    if(!pin) return error(res, "not found");
+    res.json(pin);
+  });
 });
 
 router.patch("/users/:id", function(req, res){

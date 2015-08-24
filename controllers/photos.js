@@ -32,6 +32,12 @@ router.patch("/pins/:pinId/photos/:id", function(req, res){
   });
 });
 
+router.get("/pins/:pinId/photos/:id", function(req,res){
+  Photo.findById(req.params.id).then(function(photo){
+    res.json(photo);
+  })
+})
+
 router.delete("/pins/:pinId/photos/:id", function(req, res){
   Photo.findById(req.params.id).then(function(photo){
     photo.destroy().then(function(){
