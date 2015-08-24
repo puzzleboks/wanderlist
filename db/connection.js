@@ -4,17 +4,17 @@ var User = sequelize.import("../models/user");
 var Pin = sequelize.import("../models/pin");
 var Photo = sequelize.import("../models/photo");
 
-User.hasMany(Pin);
+Photo.belongsTo(Pin);
 Pin.belongsTo(User);
 Pin.hasMany(Photo);
-Photo.belongsTo(Pin);
+User.hasMany(Pin);
 
 module.exports = {
   sql: Sequelize,
   do: sequelize,
   models: {
-    User: User,
+    Photo: Photo,
     Pin: Pin,
-    Photo: Photo
+    User: User
   }
 }

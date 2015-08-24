@@ -1,17 +1,43 @@
 var express = require("express");
 var router = express.Router();
 var Photo = require("../db/connection").models.Photo;
+var Pin = require("../db/connection").models.Pin;
+
 
 function error(response, message){
   response.status(500);
   response.json({error: message})
 }
 
-router.get("/photos", function(req,res){
-  Photo.findAll().then(function(photos){
-    res.json(photos);
+router.post("/pins/:id/photos", function(req, res){
+  Photo.create(req.body).then(function(photo){
+    res.json(photo);
   });
-})
+});
 
+router.get("/pins/:id/photos", function(req, res){
+  Pin.findById(req.params.id).then(function(pin){
+    if(!pin) return error(res, "pin not found")
+    pin.getPhotos().then(function(photos){
+      res.send(photos)
+    })
+  });
+});
+
+router.patch("/pins/:pinId/photos/:id", function(req, res){
+  Photo.findById(req.params.id).then(function(photo){
+    photo.updateAttributes(req.body).then(function(updatedPhoto){
+      res.json(updatedPhoto);
+    });
+  });
+});
+
+router.delete("/pins/:pinId/photos/:id", function(req, res){
+  Photo.findById(req.params.id).then(function(photo){
+    photo.destroy().then(function(){
+      res.json({success: true});
+    });
+  });
+});
 
 module.exports = router;
