@@ -12,6 +12,14 @@ app.listen(3000, function(){
   console.log("app listening on port 3000")
 })
 
-app.get("/", function(req,res){
-  res.send("hello world");
-})
+var usersController = require("./controllers/users");
+var pinsController = require("./controllers/pins");
+var photosController = require("./controllers/photos");
+
+app.use("/", usersController);
+app.use("/", pinsController);
+app.use("/", photosController);
+
+app.get("/", function(req, res){
+  res.render("index", {})
+});
