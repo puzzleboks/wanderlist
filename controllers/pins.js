@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var Pin = require("../db/connection").models.Pin;
-// var User = require("../db/connection").models.User;
+var User = require("../db/connection").models.User;
 
 function error(response, message){
   response.status(500);
