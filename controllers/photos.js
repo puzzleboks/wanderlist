@@ -9,35 +9,22 @@ function error(response, message){
   response.json({error: message})
 }
 
-router.get("/photos", function(req,res){
-  Photo.findAll().then(function(photos){
-    res.json(photos);
-  });
-});
-
-router.post("/photos", function(req, res){
-  console.log(req.body);
+router.post("/pins/:id/photos", function(req, res){
   Photo.create(req.body).then(function(photo){
-    console.log(photo);
     res.json(photo);
   });
 });
 
-router.get("/pins/:pinId/photos", function(req, res){
-  Pin.findById(req.params.pinId).then(function(pin){
+router.get("/pins/:id/photos", function(req, res){
+  Pin.findById(req.params.id).then(function(pin){
+    if(!pin) return error(res, "pin not found")
     pin.getPhotos().then(function(photos){
       res.send(photos)
     })
   });
 });
 
-router.get("/photos/:id", function(req, res){
-  Photo.findById(req.params.id).then(function(photo){
-    res.json(photo);
-  });
-});
-
-router.patch("/photos/:id", function(req, res){
+router.patch("/pins/:pinId/photos/:id", function(req, res){
   Photo.findById(req.params.id).then(function(photo){
     photo.updateAttributes(req.body).then(function(updatedPhoto){
       res.json(updatedPhoto);
@@ -45,7 +32,7 @@ router.patch("/photos/:id", function(req, res){
   });
 });
 
-router.delete("/photos/:id", function(req, res){
+router.delete("/pins/:pinId/photos/:id", function(req, res){
   Photo.findById(req.params.id).then(function(photo){
     photo.destroy().then(function(){
       res.json({success: true});
