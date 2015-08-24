@@ -7,4 +7,11 @@ function error(response, message){
   response.json({error: message})
 }
 
+router.get("/users", function(req,res){
+  User.findAll().then(function(users){
+    res.json(users);
+  });
+})
+
+
 module.exports = router;

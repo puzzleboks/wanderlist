@@ -7,4 +7,11 @@ function error(response, message){
   response.json({error: message})
 }
 
+router.get("/photos", function(req,res){
+  Photo.findAll().then(function(photos){
+    res.json(photos);
+  });
+})
+
+
 module.exports = router;

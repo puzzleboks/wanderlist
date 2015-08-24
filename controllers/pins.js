@@ -7,4 +7,11 @@ function error(response, message){
   response.json({error: message})
 }
 
+router.get("/pins", function(req,res){
+  Pin.findAll().then(function(pins){
+    res.json(pins);
+  });
+})
+
+
 module.exports = router;
