@@ -1,2 +1,4 @@
-var Sequelize = require("sequelize");
-var sequelize = new Sequelize("postgres:///wanderlist")
+var DB = require("./connection");
+DB.do.sync({force: true}).then(function(){
+  process.exit();
+});
