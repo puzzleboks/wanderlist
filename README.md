@@ -12,5 +12,3 @@ For all our planning, see:
 
 # Implementation
 Put step by step implementation here
-
-malissa upstream
