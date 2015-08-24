@@ -1,6 +1,19 @@
-* {
+/** {
+  box-sizing: border-box;
+}*/
+/**, *:before, *:after {
+  box-sizing: inherit;
+}
+html {
   box-sizing: border-box;
 }
+
+.site-container {
+  height: 100%;
+  margin: 0 auto;
+  width: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -10,7 +23,14 @@ body {
   height: 750px;
 }
 
-.bar {
+.nav-bar {
   display: flex;
   align-items: center;
+  width: 100%;
+  padding: 20px;
 }
+
+img.logo, img.green-pin, img.red-pin, img.menu {
+  height: 100px;
+  width: 100px;
+}*/
