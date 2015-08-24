@@ -1,7 +1,7 @@
-/** {
+* {
   box-sizing: border-box;
 }*/
-/**, *:before, *:after {
+*, *:before, *:after {
   box-sizing: inherit;
 }
 html {
@@ -33,4 +33,4 @@ body {
 img.logo, img.green-pin, img.red-pin, img.menu {
   height: 100px;
   width: 100px;
-}*/
+}
