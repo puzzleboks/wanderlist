@@ -72,7 +72,7 @@ myLayer.on("click", function(){
 // Add features to the map.
 myLayer.setGeoJSON(geoJson);
 
-  map.scrollWheelZoom.enable();
+map.scrollWheelZoom.disable();
 
   User.fetch().then(function(users){
     users.forEach(function(user){
