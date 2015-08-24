@@ -29,7 +29,4 @@ router.get("/users/:id/pins", function(req,res){
 });
 
 
-
-
-
 module.exports = router;
