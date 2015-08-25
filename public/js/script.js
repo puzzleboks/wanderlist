@@ -49,6 +49,7 @@ map.scrollWheelZoom.disable();
 
   Pin.fetch(1).then(function(pins){
     pins.forEach(function(pin){
+      var view = new PinView(pin)
       $("body").append("<div>"+pin+"</div>")
     })
   })
