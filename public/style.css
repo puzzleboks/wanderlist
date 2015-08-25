@@ -28,3 +28,18 @@ img {
   width: 40px;
   height: 40px;
 }
+
+.map_container {
+  position: relative;
+}
+
+.popup_bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 30em;
+  border: 2px solid black;
+  opacity: 50%;
+  background-color: rgba(255, 255, 255, .8);
+}

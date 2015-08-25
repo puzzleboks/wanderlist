@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  $(".popup_bar").hide();
   var lat     = 13.5333;
   var long    = 2.0833;
 
@@ -66,7 +67,10 @@ myLayer.on('layeradd', function(e) {
 });
 
 myLayer.on("click", function(){
-  console.log("click")
+  $(".popup_bar").toggle();
+  $(".popup_bar").empty()
+  $(".popup_bar").html("<p>"+this["_geojson"][0]["properties"]["title"]+"</p>")
+  console.log(this["_geojson"][0]["properties"]["title"])
 })
 
 // Add features to the map.
