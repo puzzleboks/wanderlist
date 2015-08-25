@@ -9,23 +9,23 @@ $(document).ready(function(){
 
   var myLayer = L.mapbox.featureLayer().addTo(map);
 
-myLayer.on("click", function(){
-  $(".popup_bar").toggle();
-  $(".popup_bar").html($(event.target).attr("class"));
-  console.log($(event.target))
-  // if($(this).attr("class") == "potato"){
-  //   console.log("potato")
-  // }
-  // else{
-  //   console.log("womp womp")
-  // }
-  //
-
-  // $(".popup_bar").toggle();
-  // $(".popup_bar").empty()
-  // $(".popup_bar").html("<p>"+this["_geojson"][0]["properties"]["title"]+"</p>")
-  // console.log(this["_geojson"][0]["properties"]["title"])
-})
+// myLayer.on("click", function(){
+//   $(".popup_bar").toggle();
+//   $(".popup_bar").html($(event.target).attr("class"));
+//   console.log($(event.target))
+//   // if($(this).attr("class") == "potato"){
+//   //   console.log("potato")
+//   // }
+//   // else{
+//   //   console.log("womp womp")
+//   // }
+//   //
+//
+//   // $(".popup_bar").toggle();
+//   // $(".popup_bar").empty()
+//   // $(".popup_bar").html("<p>"+this["_geojson"][0]["properties"]["title"]+"</p>")
+//   // console.log(this["_geojson"][0]["properties"]["title"])
+// })
 
 map.scrollWheelZoom.disable();
 
