@@ -51,7 +51,7 @@ map.scrollWheelZoom.disable();
                 "icon": {
                     "iconUrl": "../public/images/PinDown1.png",
                     "iconSize": [22, 27], // size of the icon
-                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                    "iconAnchor": [4, 25], // point of the icon which will correspond to marker's location
                     "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
                     "className": pin.isRed
                 }
@@ -77,7 +77,7 @@ map.scrollWheelZoom.disable();
                 "icon": {
                     "iconUrl": "../public/images/PinDown1Green.png",
                     "iconSize": [22, 27], // size of the icon
-                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                    "iconAnchor": [4, 25], // point of the icon which will correspond to marker's location
                     "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
                     "className": pin.isRed
                 }
@@ -122,7 +122,7 @@ map.scrollWheelZoom.disable();
                 "icon": {
                     "iconUrl": "../public/images/PinDown1.png",
                     "iconSize": [22, 27], // size of the icon
-                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                    "iconAnchor": [4, 25], // point of the icon which will correspond to marker's location
                     "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
                     "className": "true"
                 }
