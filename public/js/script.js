@@ -32,30 +32,58 @@ map.scrollWheelZoom.disable();
   var geoJson = []
   Pin.fetch(1).then(function(pins){
     pins.forEach(function(pin){
-      console.log("------")
-      console.log(pin.title);
-      console.log(pin.latitude);
-      console.log(pin.longitude);
-      geoJson.push(
-        {
-          "type": "Feature",
-          "geometry": {
-              "type": "Point",
-              "coordinates": [pin.longitude, pin.latitude]
-          },
-          "properties": {
-              "title": pin.title,
-              "description": pin.description,
-              "icon": {
-                  "iconUrl": "../public/images/PinDown1.png",
-                  "iconSize": [22, 27], // size of the icon
-                  "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
-                  "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-                  "className": pin.isRed
-              }
+      if(pin.isRed == true){
+        console.log("------")
+        console.log(pin.title);
+        console.log(pin.latitude);
+        console.log(pin.longitude);
+        geoJson.push(
+          {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [pin.longitude, pin.latitude]
+            },
+            "properties": {
+                "title": pin.title,
+                "description": pin.description,
+                "icon": {
+                    "iconUrl": "../public/images/PinDown1.png",
+                    "iconSize": [22, 27], // size of the icon
+                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                    "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
+                    "className": pin.isRed
+                }
+            }
           }
-        }
-      )
+        )
+      }
+      else {
+        console.log("------")
+        console.log(pin.title);
+        console.log(pin.latitude);
+        console.log(pin.longitude);
+        geoJson.push(
+          {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [pin.longitude, pin.latitude]
+            },
+            "properties": {
+                "title": pin.title,
+                "description": pin.description,
+                "icon": {
+                    "iconUrl": "../public/images/PinDown1Green.png",
+                    "iconSize": [22, 27], // size of the icon
+                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                    "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
+                    "className": pin.isRed
+                }
+            }
+          }
+        )
+      }
     })
   }).then(function(){
     myLayer.on('layeradd', function(e) {
