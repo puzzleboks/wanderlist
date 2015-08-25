@@ -143,7 +143,6 @@ map.scrollWheelZoom.disable();
       console.log("user pressed enter")
     }
   })
-
   // users/1/pins gets a json list of that user's pins
 
   $("body").click(function(){
