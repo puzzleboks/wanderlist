@@ -29,6 +29,7 @@ $(document).ready(function(){
 
 map.scrollWheelZoom.disable();
 
+/////////////// adding original pins of user 1 /////////////
   var geoJson = []
   Pin.fetch(1).then(function(pins){
     pins.forEach(function(pin){
@@ -95,4 +96,52 @@ map.scrollWheelZoom.disable();
 
     myLayer.setGeoJSON(geoJson);
   })
+
+  /////////////search bar///////////////////
+
+  $(".form-control").on("keypress", function(e){
+    if(e.which == 13){
+      e.preventDefault();
+      var user_search = $(".form-control").val()
+      var request = $.getJSON("https://api.mapbox.com/v4/geocode/mapbox.places/"+user_search+".json?access_token=pk.eyJ1IjoiYWxleGJhbm5vbiIsImEiOiIzM2I3MWU4NjhlNjc5ODYzN2NjMWFhYzU4OWIzOGYzYiJ9.zVY-I01f5Pie1XCaA0Laog")
+      .then(function(response){
+        var search_location = response.features[0].geometry.coordinates
+
+        console.log(search_location)
+
+        geoJson.push(
+          {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [search_location[0], search_location[1]]
+            },
+            "properties": {
+                "title": user_search,
+                "description": response.features[0].text,
+                "icon": {
+                    "iconUrl": "../public/images/PinDown1.png",
+                    "iconSize": [22, 27], // size of the icon
+                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                    "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
+                    "className": "true"
+                }
+            }
+          }
+        )
+        myLayer.on('layeradd', function(e) {
+            var marker = e.layer,
+                feature = marker.feature;
+
+            marker.setIcon(L.icon(feature.properties.icon));
+        });
+        myLayer.setGeoJSON(geoJson);
+      })
+      $(".form-control").val("")
+      console.log("-------------geoJSON----------")
+      console.log(geoJson)
+      console.log("user pressed enter")
+    }
+  })
+
 });
