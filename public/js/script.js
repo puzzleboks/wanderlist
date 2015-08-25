@@ -9,18 +9,6 @@ $(document).ready(function(){
 
   var myLayer = L.mapbox.featureLayer().addTo(map);
 
-  // var cir = L.circle([lat, long]).addTo(map);
-  // L.marker([lat, long], {
-  //   icon: L.mapbox.marker.icon({
-  //     'marker-size': 'medium',
-  //     'marker-color': '#ff0000'
-  //   })
-  // }).addTo(map).on("click", function(){
-  //
-  //   console.log("click");
-  // });
-
-
 myLayer.on("click", function(){
   $(".popup_bar").toggle();
   $(".popup_bar").html($(event.target).attr("class"));
@@ -41,21 +29,42 @@ myLayer.on("click", function(){
 
 map.scrollWheelZoom.disable();
 
-  // User.fetch().then(function(users){
-  //   users.forEach(function(user){
-  //     $(".users").append(user.username)
-  //   })
-  // })
-
+  var geoJson = []
   Pin.fetch(1).then(function(pins){
     pins.forEach(function(pin){
-      var view = new PinView(pin)
-      $("body").append("<div>"+pin+"</div>")
+      console.log("------")
+      console.log(pin.title);
+      console.log(pin.latitude);
+      console.log(pin.longitude);
+      geoJson.push(
+        {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [pin.longitude, pin.latitude]
+          },
+          "properties": {
+              "title": pin.title,
+              "description": pin.description,
+              "icon": {
+                  "iconUrl": "../public/images/PinDown1.png",
+                  "iconSize": [22, 27], // size of the icon
+                  "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                  "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
+                  "className": pin.isRed
+              }
+          }
+        }
+      )
     })
+  }).then(function(){
+    myLayer.on('layeradd', function(e) {
+        var marker = e.layer,
+            feature = marker.feature;
+
+        marker.setIcon(L.icon(feature.properties.icon));
+    });
+
+    myLayer.setGeoJSON(geoJson);
   })
-
-
-  // users/1/pins gets a json list of that user's pins
-
-
 });
