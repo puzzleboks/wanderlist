@@ -9,86 +9,144 @@ $(document).ready(function(){
 
   var myLayer = L.mapbox.featureLayer().addTo(map);
 
-  // var cir = L.circle([lat, long]).addTo(map);
-  // L.marker([lat, long], {
-  //   icon: L.mapbox.marker.icon({
-  //     'marker-size': 'medium',
-  //     'marker-color': '#ff0000'
-  //   })
-  // }).addTo(map).on("click", function(){
-  //
-  //   console.log("click");
-  // });
-
-
-var geoJson = [
-  {
-    "type": "Feature",
-    "geometry": {
-        "type": "Point",
-        "coordinates": [-75.00, 40]
-    },
-    "properties": {
-        "title": "red pin",
-        "icon": {
-            "iconUrl": "../public/images/PinDown1.png",
-            "iconSize": [22, 27], // size of the icon
-            "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
-            "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-            "className": "dot"
-        }
-    }
-},{
-  "type": "Feature",
-  "geometry": {
-      "type": "Point",
-      "coordinates": [51.5072, -0.1275]
-  },
-  "properties": {
-      "title": "green pin",
-      "icon": {
-          "iconUrl": "../public/images/PinDown1Green.png",
-          "iconSize": [22, 27], // size of the icon
-          "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
-          "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-          "className": "dot"
-      }
-  }
-}
-
-];
-
-// Set a custom icon on each marker based on feature properties.
-myLayer.on('layeradd', function(e) {
-    var marker = e.layer,
-        feature = marker.feature;
-
-    marker.setIcon(L.icon(feature.properties.icon));
-});
-
-myLayer.on("click", function(){
-  $(".popup_bar").toggle();
-  $(".popup_bar").empty()
-  $(".popup_bar").html("<p>"+this["_geojson"][0]["properties"]["title"]+"</p>")
-  console.log(this["_geojson"][0]["properties"]["title"])
-})
-
-// Add features to the map.
-myLayer.setGeoJSON(geoJson);
+// myLayer.on("click", function(){
+//   $(".popup_bar").toggle();
+//   $(".popup_bar").html($(event.target).attr("class"));
+//   console.log($(event.target))
+//   // if($(this).attr("class") == "potato"){
+//   //   console.log("potato")
+//   // }
+//   // else{
+//   //   console.log("womp womp")
+//   // }
+//   //
+//
+//   // $(".popup_bar").toggle();
+//   // $(".popup_bar").empty()
+//   // $(".popup_bar").html("<p>"+this["_geojson"][0]["properties"]["title"]+"</p>")
+//   // console.log(this["_geojson"][0]["properties"]["title"])
+// })
 
 map.scrollWheelZoom.disable();
 
-  User.fetch().then(function(users){
-    users.forEach(function(user){
-      $(".users").append(user.username)
+/////////////// adding original pins of user 1 /////////////
+  var geoJson = []
+  Pin.fetch(1).then(function(pins){
+    pins.forEach(function(pin){
+      if(pin.isRed == true){
+        console.log("------")
+        console.log(pin.title);
+        console.log(pin.latitude);
+        console.log(pin.longitude);
+        geoJson.push(
+          {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [pin.longitude, pin.latitude]
+            },
+            "properties": {
+                "title": pin.title,
+                "description": pin.description,
+                "icon": {
+                    "iconUrl": "../public/images/PinDown1.png",
+                    "iconSize": [22, 27], // size of the icon
+                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                    "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
+                    "className": pin.isRed
+                }
+            }
+          }
+        )
+      }
+      else {
+        console.log("------")
+        console.log(pin.title);
+        console.log(pin.latitude);
+        console.log(pin.longitude);
+        geoJson.push(
+          {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [pin.longitude, pin.latitude]
+            },
+            "properties": {
+                "title": pin.title,
+                "description": pin.description,
+                "icon": {
+                    "iconUrl": "../public/images/PinDown1Green.png",
+                    "iconSize": [22, 27], // size of the icon
+                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                    "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
+                    "className": pin.isRed
+                }
+            }
+          }
+        )
+      }
     })
+  }).then(function(){
+    myLayer.on('layeradd', function(e) {
+        var marker = e.layer,
+            feature = marker.feature;
+
+        marker.setIcon(L.icon(feature.properties.icon));
+    });
+
+    myLayer.setGeoJSON(geoJson);
   })
 
+  /////////////search bar///////////////////
+
+  $(".form-control").on("keypress", function(e){
+    if(e.which == 13){
+      e.preventDefault();
+      var user_search = $(".form-control").val()
+      var request = $.getJSON("https://api.mapbox.com/v4/geocode/mapbox.places/"+user_search+".json?access_token=pk.eyJ1IjoiYWxleGJhbm5vbiIsImEiOiIzM2I3MWU4NjhlNjc5ODYzN2NjMWFhYzU4OWIzOGYzYiJ9.zVY-I01f5Pie1XCaA0Laog")
+      .then(function(response){
+        var search_location = response.features[0].geometry.coordinates
+
+        console.log(search_location)
+
+        geoJson.push(
+          {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [search_location[0], search_location[1]]
+            },
+            "properties": {
+                "title": user_search,
+                "description": response.features[0].text,
+                "icon": {
+                    "iconUrl": "../public/images/PinDown1.png",
+                    "iconSize": [22, 27], // size of the icon
+                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                    "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
+                    "className": "true"
+                }
+            }
+          }
+        )
+        myLayer.on('layeradd', function(e) {
+            var marker = e.layer,
+                feature = marker.feature;
+
+            marker.setIcon(L.icon(feature.properties.icon));
+        });
+        myLayer.setGeoJSON(geoJson);
+      })
+      $(".form-control").val("")
+      console.log("-------------geoJSON----------")
+      console.log(geoJson)
+      console.log("user pressed enter")
+    }
+  })
   // users/1/pins gets a json list of that user's pins
 
   $("body").click(function(){
     $(".overlay").hide();
     $(".help_window").hide();
   });
-
 });
