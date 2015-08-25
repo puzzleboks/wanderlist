@@ -86,5 +86,9 @@ map.scrollWheelZoom.disable();
 
   // users/1/pins gets a json list of that user's pins
 
+  $("body").click(function(){
+    $(".overlay").hide();
+    $(".help_window").hide();
+  });
 
 });
