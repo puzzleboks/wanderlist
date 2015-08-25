@@ -21,68 +21,38 @@ $(document).ready(function(){
   // });
 
 
-var geoJson = [
-  {
-    "type": "Feature",
-    "geometry": {
-        "type": "Point",
-        "coordinates": [-75.00, 40]
-    },
-    "properties": {
-        "title": "red pin",
-        "icon": {
-            "iconUrl": "../public/images/PinDown1.png",
-            "iconSize": [22, 27], // size of the icon
-            "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
-            "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-            "className": "dot"
-        }
-    }
-},{
-  "type": "Feature",
-  "geometry": {
-      "type": "Point",
-      "coordinates": [51.5072, -0.1275]
-  },
-  "properties": {
-      "title": "green pin",
-      "icon": {
-          "iconUrl": "../public/images/PinDown1Green.png",
-          "iconSize": [22, 27], // size of the icon
-          "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
-          "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-          "className": "dot"
-      }
-  }
-}
-
-];
-
-// Set a custom icon on each marker based on feature properties.
-myLayer.on('layeradd', function(e) {
-    var marker = e.layer,
-        feature = marker.feature;
-
-    marker.setIcon(L.icon(feature.properties.icon));
-});
-
 myLayer.on("click", function(){
   $(".popup_bar").toggle();
-  $(".popup_bar").empty()
-  $(".popup_bar").html("<p>"+this["_geojson"][0]["properties"]["title"]+"</p>")
-  console.log(this["_geojson"][0]["properties"]["title"])
-})
+  $(".popup_bar").html($(event.target).attr("class"));
+  console.log($(event.target))
+  // if($(this).attr("class") == "potato"){
+  //   console.log("potato")
+  // }
+  // else{
+  //   console.log("womp womp")
+  // }
+  //
 
-// Add features to the map.
-myLayer.setGeoJSON(geoJson);
+  // $(".popup_bar").toggle();
+  // $(".popup_bar").empty()
+  // $(".popup_bar").html("<p>"+this["_geojson"][0]["properties"]["title"]+"</p>")
+  // console.log(this["_geojson"][0]["properties"]["title"])
+})
 
 map.scrollWheelZoom.disable();
 
-  User.fetch().then(function(users){
-    users.forEach(function(user){
-      $(".users").append(user.username)
+  // User.fetch().then(function(users){
+  //   users.forEach(function(user){
+  //     $(".users").append(user.username)
+  //   })
+  // })
+
+  Pin.fetch(1).then(function(pins){
+    pins.forEach(function(pin){
+      $("body").append("<div>"+pin+"</div>")
     })
   })
+
 
   // users/1/pins gets a json list of that user's pins
 
