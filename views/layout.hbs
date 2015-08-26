@@ -2,6 +2,13 @@
 <html>
   <head>
     <title>Express</title>
+
+    <!--Google SignIN -->
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="192195838802-qrq0d4an3n2nc0ueb1knn4vhm843n840.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!--Google SignIN -->
+
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="stylesheet" href="/public/style.css">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
@@ -39,6 +46,27 @@
     <div class="help-message">Need some help getting started?<br><br> Green pins are for places you've been in the world, and red pins are for all the places you'd like to go.<br><br> Feel free to use the search box to find a city or country of your choosing, or utilize those excellent geography skills by grabbing and dropping the pins at the top of the page!<br><br> Happy wandering.
       <input type="button" value="x" name="submit" id="exithelp-button">
     </div>
+
+    <!-- Google SignIn -->
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <script>
+      function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log("Name: " + profile.getName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+      };
+    </script>
+    <div class="twitterSignIn">
+      <img class="twitSign" src="../public/images/sign-in-with-twitter-gray.png" alt="twitterBtn">
+    </div>
+
   <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -52,8 +80,9 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">sign up <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">log in </a></li>
+        <li class="active">
+          <a href="#">sign up <span class="sr-only">(current)</span></a></li>
+        <li><a href="/auth/twitter/login">log in </a></li>
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
