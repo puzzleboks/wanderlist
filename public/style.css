@@ -89,7 +89,6 @@ img {
   text-align: left;
   font: 13px/1.8 Georgia, Times, sans-serif;
 }
-
 .account-information{
   display: none;
   position: absolute;
@@ -187,4 +186,10 @@ input{
 .next_arrow {
   top: 9em;
   right: 0em;
+}
+
+.twitSign {
+  width: 158px;
+  height: 28px;
+  /*float: left;*/
 }

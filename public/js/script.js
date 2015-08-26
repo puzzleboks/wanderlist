@@ -122,7 +122,7 @@ $(document).ready(function() {
       $(".form-control").val("")
     }
   })
-
+  // users/1/pins gets a json list of that user's pins
   // add green and red pin drop and drag
 
   var redMarker = L.marker([lat, long], {
