@@ -65,7 +65,7 @@ app.get("/auth/twitter/show", function(req, res){
 
 app.get('/signout', function(req, res){
   req.session.destroy()
-  res.redirect("/users")
+  res.redirect("/")
 })
 
 app.get("/", function(req, res){
