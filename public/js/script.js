@@ -154,17 +154,11 @@ map.scrollWheelZoom.disable();
   });
 
   /////////// nav bar clickdown //////////
-  // $(".caret").click(function(){
-  //   console.log("menu bar clicked")
-  //   $(".dropdown-menu").show();
-  // });
-  // $(".dropdown-toggle").show(;)
-  //     alert("First handler for .toggle() called.");
-  //     $(".dropdown-menu").show();
-    }
-    // function() {
-    //   alert( "Second handler for .toggle() called." );
-    // });
+  $(".dropdown-toggle").on("click", function(){
+    console.log("menu bar clicked")
+    $(".dropdown-menu").show();
+  });
+
   ///////////// pin click ////////////////
   myLayer.on("click", function() {
     // var coords = e.layer.feature.geometry.coordinates;
@@ -242,4 +236,5 @@ map.scrollWheelZoom.disable();
     //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
   }
 
-});
+    }
+// });
