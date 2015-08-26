@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+  $(".popup_bar").hide();
+
   var lat     = 13.5333;
   var long    = 2.0833;
 
@@ -14,7 +17,6 @@ $(document).ready(function() {
   $("body").click(function(){
     $(".overlay").hide();
     $(".help_window").hide();
-    $(".popup_bar").hide();
   });
 
   /////////// nav bar clickdown //////////
@@ -42,6 +44,7 @@ $(document).ready(function() {
     console.log("share clicked")
   });
 
+  // red and green pin variables
 
   var redPin = L.icon({
     iconUrl: '../public/images/PinDown1.png',
@@ -55,6 +58,7 @@ $(document).ready(function() {
   })
 
   //fetch pins from user 1
+
   Pin.fetch(1).then(function(pins){
     pins.forEach(function(pin){
       console.log("------")
@@ -72,7 +76,6 @@ $(document).ready(function() {
       else {
         L.marker([pin.latitude, pin.longitude], {
           icon: greenPin,
-          draggable: true
         }).addTo(map);
       }
     })
@@ -99,5 +102,43 @@ $(document).ready(function() {
       })
       $(".form-control").val("")
     }
+  })
+
+  // add green and red pin drop and drag
+
+  var redMarker = L.marker([lat, long], {
+    icon: redPin,
+    draggable: true
   });
-})
+  var greenMarker = L.marker([lat, long], {
+    icon: greenPin,
+    draggable: true
+  });
+  $("#redPinBtn").click(function(){
+    console.log("click")
+    redMarker.addTo(map);
+  });
+  $("#greenPinBtn").click(function() {
+    console.log("greenclick")
+    greenMarker.addTo(map);
+  })
+
+  // add and remove sidebar on pin click
+
+  $(".leaflet-tile-pane").on("click", function() {
+    $(".popup_bar").hide();
+  })
+
+  $(".leaflet-marker-pane").on("click", function() {
+    console.log("clicked a pin");
+    if($(".popup_bar").css("display") == "none"){
+      $(".popup_bar").toggle();
+      console.log("popup bar should toggle")
+    }
+    else {
+      console.log("Already showing");
+    }
+    console.log(event.target)
+  })
+
+});
