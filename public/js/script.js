@@ -120,10 +120,17 @@ $(document).ready(function() {
         console.log(response)
         var search_location = response.features[0].geometry.coordinates
         console.log(search_location)
-        L.marker([search_location[1], search_location[0]], {
+        lat = search_location[1];
+        pinLat = lat;
+        long = search_location[0];
+        pinLong = long;
+        redMarker = L.marker([lat, long], {
           icon: redPin,
-          draggable: true
-        }).addTo(map)
+          draggable: true,
+          clickable: true,
+        })
+        redMarker.addTo(map)
+        redMarker.on('dragend', ondragend);
       }).fail(function(response){
         console.log("failed to load coordinates from search");
       })
@@ -146,53 +153,59 @@ $(document).ready(function() {
 
   // add green and red pin drop and drag
 
-  var redMarker = L.marker([lat, long], {
-    icon: redPin,
-    draggable: true,
-    clickable: true,
-  });
+  var redMarker;
 
   // redMarker.on('click', function () {
   //   redMarker.bounce({duration: 500, height: 100});
   // });
 
-  var greenMarker = L.marker([lat, long], {
-    icon: greenPin,
-    draggable: true,
-    clickable: true,
-  });
+  var greenMarker;
 
   $("#redPinBtn").click(function(){
     console.log("click")
+    redMarker = L.marker([lat, long], {
+      icon: redPin,
+      draggable: true,
+      clickable: true,
+    });
     redMarker.addTo(map);
+    redMarker.on('dragend', ondragend);
   });
   $("#greenPinBtn").click(function() {
     console.log("greenclick")
+    greenMarker = L.marker([lat, long], {
+      icon: greenPin,
+      draggable: true,
+      clickable: true,
+    });
     greenMarker.addTo(map);
+    greenMarker.on('dragend', ondragend);
   });
 
   // Set the initial marker coordinate on load.
   function ondragend() {
-    var gm = redMarker.getLatLng();
-    console.log(gm.lat);
-    console.log(gm.lng);
-    pinLat = gm.lat;
-    console.log("pinLat is currently "+pinLat)
-    pinLong = gm.lng;
-    newPinWindow();
-
-    var rm = greenMarker.getLatLng();
-    console.log(rm.lat);
-    console.log(rm.lng);
-    pinLat = gm.lat;
-    pinLong = gm.lng;
-    newPinWindow();
+    if(redMarker){
+      var rm = redMarker.getLatLng();
+      console.log(rm.lat);
+      console.log(rm.lng);
+      pinLat = rm.lat;
+      console.log("pinLat is currently "+pinLat)
+      pinLong = rm.lng;
+      newPinWindow();
+    }
+    if(greenMarker){
+      var gm = greenMarker.getLatLng();
+      console.log(gm.lat);
+      console.log(gm.lng);
+      pinLat = gm.lat;
+      pinLong = gm.lng;
+      newPinWindow();
+    }
 
     //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
   }
+
   // every time the marker is dragged, update the coordinates container
-  redMarker.on('dragend', ondragend);
-  greenMarker.on('dragend', ondragend);
 
 
   // add and remove sidebar on pin click
