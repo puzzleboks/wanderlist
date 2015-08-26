@@ -1,10 +1,9 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
-var passport = require("passport");
-var TwitterStrategy = require("passport-twitter").Strategy;
-var env = require("./env");
 var path = require("path");
+var hbs = require("hbs");
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/public", express.static(path.join(__dirname + "/public")));
@@ -19,9 +18,9 @@ app.use("/", usersController);
 app.use("/", pinsController);
 app.use("/", photosController);
 
-app.get("/", function(req, res){
-  res.render("index", {})
-});
+var passport = require("passport");
+var TwitterStrategy = require("passport-twitter").Strategy;
+var env = require("./env");
 
 passport.use(new TwitterStrategy(
   {
@@ -72,9 +71,11 @@ app.get('/signout', function(req, res){
   res.redirect("/users")
 })
 
-// app.get("/", function(req, res){
-//   res.render("index", {})
-// });
+app.get("/", function(req, res){
+  // console.log("hello, you suck")
+  // res.send("Hello world")
+  res.render("index", {})
+});
 
 app.listen(3000, function(){
   console.log("Whee, I'm working!");
