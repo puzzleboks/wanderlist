@@ -55,6 +55,14 @@ app.get("/auth/twitter/login", passport.authenticate("twitter"));
 app.get("/auth/twitter/callback",
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   function(req, res) {
+    // user = req.session.
+    console.log(req.session.passport.user)
+
+    user = User.new
+    user.email = req.session.passport.user.email
+    user.name = req.session.passport.user.name
+    user.save
+    
     res.redirect("/");
   }
 );
@@ -75,35 +83,3 @@ app.get("/", function(req, res){
 app.listen(3000, function(){
   console.log("Whee, I'm working!");
 });
-
-
-
-
-
-// var methodOverride = require('method-override')
-// var session = require("express-session")
-// app.use(methodOverride('_method'))
-// app.use(session({
-//   secret: "keyboard cat",
-//   key: "sid",
-//   cookie: { secure:true }
-// }))
-// var TwitterStrategy = require("passport-twitter").Strategy
-
-// passport.use(new TwitterStrategy({
-//   consumerKey: env.twitter.consumerKey,
-//   consumerSecret: env.twitter.consumerSecret,
-//   callbackUrl: env.twitter.callbackUrl
-// }, function(aToken, aTokenSecret, aProfile, done){
-//   console.log("token", aToken)
-//   token = aToken
-//   TokenSecret = aTokenSecret
-//   profile = aProfile
-//   done(null, profile)
-// }))
-//
-// app.get('/auth/twitter', passport.authenticate('twitter'), function(req, res){
-// });
-// // var sessionsController = require("./controllers/sessions")
-
-// // app.use("/", sessionsController);
