@@ -68,10 +68,12 @@ app.get("/auth/twitter/callback",
     user.email = req.session.passport.user.email
     user.name = req.session.passport.user.name
     user.save
-    
+
     res.redirect("/");
   }
 );
+
+currentUser = req.session
 
 app.get("/auth/twitter/show", function(req, res){
   res.json(req.session);
