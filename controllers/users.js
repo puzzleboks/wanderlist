@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var User = require("../db/connection").models.User;
 var Pin = require("../db/connection").models.Pin;
+var passport = require('passport');
 
 function error(response, message){
   response.status(500);
@@ -13,6 +14,12 @@ router.get("/users", function(req,res){
     res.json(users);
   });
 });
+
+// router.post('/login',
+//   passport.authenticate('local', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     res.redirect('/');
+//   });
 
 router.post("/users", function(req, res){
   User.create(req.body).then(function(user){

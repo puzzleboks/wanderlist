@@ -38,10 +38,22 @@ app.use("/", pinsController);
 app.use("/", photosController);
 
 // passport config
-//var Account = require('./models/user');//change later?
-// passport.use(new LocalStrategy(Account.authenticate()));
-// passport.serializeUser(Account.serializeUser());
-// passport.deserializeUser(Account.deserializeUser());
+passport.use(new LocalStrategy(
+  // usernameField: 'username',
+  // passwordField: 'passwd'
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 
 app.get("/", function(req, res){
