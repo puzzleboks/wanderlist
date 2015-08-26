@@ -13,6 +13,10 @@ $(document).ready(function() {
   // Create a map in the div #map
   var map = L.mapbox.map('map', 'mapbox.streets').setView([lat, long], 3);
   map.scrollWheelZoom.disable();
+  //pan to location of current pin clicked - doesn't work yet
+  map.featureLayer.on('click', function(e) {
+      map.panTo(e.layer.getLatLng());
+  });
 
   $("body").click(function(){
     $(".overlay").hide();
@@ -136,13 +140,19 @@ $(document).ready(function() {
   var redMarker = L.marker([lat, long], {
     icon: redPin,
     draggable: true,
-    clickable: true
+    clickable: true,
   });
+
+  redMarker.on('click', function () {
+    redMarker.bounce({duration: 500, height: 100});
+  });
+
   var greenMarker = L.marker([lat, long], {
     icon: greenPin,
     draggable: true,
-    clickable: true
+    clickable: true,
   });
+
   $("#redPinBtn").click(function(){
     console.log("click")
     redMarker.addTo(map);
@@ -152,7 +162,7 @@ $(document).ready(function() {
     greenMarker.addTo(map);
   });
 
-
+  // Set the initial marker coordinate on load.
   function ondragend() {
     var gm = redMarker.getLatLng();
     console.log(gm.lat);
@@ -167,12 +177,8 @@ $(document).ready(function() {
   redMarker.on('dragend', ondragend);
   greenMarker.on('dragend', ondragend);
 
-  // Set the initial marker coordinate on load.
-  // ondragend();
+
   // add and remove sidebar on pin click
-
-
-
 
   $(".leaflet-tile-pane").on("click", function() {
     $(".popup_bar").hide();
@@ -212,5 +218,4 @@ $(document).ready(function() {
       // $(".popup_bar").html(divCreator)
     })
   })
-
-});
+})
