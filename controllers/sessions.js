@@ -20,8 +20,8 @@ var TwitterStrategy = require("passport-twitter").Strategy
 passport.serializeUser(function(user, done){
   done(null, user)
 })
-passport.deserializeUser(function(obj, done){
-  done(null, obj)
+passport.deserializeUser(function(user, done){
+  done(null, user)
 })
 app.use(passport.initialize())
 app.use(passport.session())
