@@ -22,3 +22,21 @@ Pin.fetch = function(userId){
   });
   return request;
 }
+Pin.show = function(userId, pinId){
+  var request = $.getJSON("http://localhost:3000/users/"+userId+"/pins/"+pinId)
+  .then(function(response) {
+    return response
+  }).fail(function(response){
+    console.log("failed to fetch pins from user with id: "+userId);
+  })
+  return request;
+}
+Pin.getPhotos = function(pinId){
+  var request = $.getJSON("http://localhost:3000/pins/"+pinId+"/photos/")
+  .then(function(response) {
+    return response
+  }).fail(function(response){
+    console.log("failed to fetch photos from pin with id: "+pinId);
+  })
+  return request;
+}
