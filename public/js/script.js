@@ -174,11 +174,11 @@ $(document).ready(function() {
     var pinId = temp[1]
     var pinTitle = temp[0]
     var photoUrls = []
-    var divCreator = $("<div></div>")
     Pin.show(1, pinId).then(function(response){
-      divCreator.append("<div>"+response.title+"</div>")
-      divCreator.append("<div>"+response.description+"</div>")
-
+      $(".title").html(response.title);
+      $(".description").html(response.description);
+      // divCreator.html("<div>"+response.title+"</div>")
+      // divCreator.html("<div>"+response.description+"</div>")
     })
     Pin.getPhotos(pinId).then(function(response){
       for(var i = 0; i < response.length; i++){
@@ -186,10 +186,15 @@ $(document).ready(function() {
       }
     })
     .then(function(response){
-      photoUrls.forEach(function(photoUrl){
-        divCreator.append("<img src="+photoUrl+">")
-      })
-      $(".popup_bar").html(divCreator)
+      if (photoUrls.length == 0) {
+        $(".photos").html("")
+      }
+      else {
+        photoUrls.forEach(function(photoUrl){
+          $(".photos").html("<img src="+photoUrl+">")
+        })
+      }
+      // $(".popup_bar").html(divCreator)
     })
   })
 
