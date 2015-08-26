@@ -91,11 +91,12 @@ img {
 }
 
 .account-information{
+  display: none;
   position: absolute;
   overflow: hidden;
-  width: 300px;
-  height: 200px;
-  top: 50%;
+  width: 400px;
+  height: 700px;
+  /*top: 50%;*/
   left: 50%;
   margin-top: -100px;
   margin-left: -150px;
@@ -112,6 +113,5 @@ img {
 
 .account-information p {
   color: #444;
-  text-align: left;
   font: 13px/1.8 Georgia, Times, sans-serif;
 }
