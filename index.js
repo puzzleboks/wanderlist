@@ -18,7 +18,7 @@ app.use("/", photosController);
 
 var passport = require("passport");
 var TwitterStrategy = require("passport-twitter").Strategy;
-var env = require("./env");
+// var env = require("./env");
 
 passport.use(new TwitterStrategy(
   {
