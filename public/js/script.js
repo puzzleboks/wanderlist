@@ -151,7 +151,18 @@ map.scrollWheelZoom.disable();
     $(".popup_bar").hide();
   });
 
-
+  /////////// nav bar clickdown //////////
+  // $(".caret").click(function(){
+  //   console.log("menu bar clicked")
+  //   $(".dropdown-menu").show();
+  // });
+  // $(".dropdown-toggle").show(;)
+  //     alert("First handler for .toggle() called.");
+  //     $(".dropdown-menu").show();
+    }
+    // function() {
+    //   alert( "Second handler for .toggle() called." );
+    // });
   ///////////// pin click ////////////////
   myLayer.on("click", function(e) {
     if($(".popup_bar").css("display") == "none"){
