@@ -18,8 +18,14 @@ app.use("/", photosController);
 
 var passport = require("passport");
 var TwitterStrategy = require("passport-twitter").Strategy;
-// var env = require("./env");
-
+var fs = require("fs")
+if (fs.existsSync("./env.js")){
+  console.log("yes")
+  var env = require("./env");
+}
+else {
+  var env = process.env;
+}
 passport.use(new TwitterStrategy(
   {
     consumerKey: env.twitter.consumerKey,

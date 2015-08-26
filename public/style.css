@@ -127,10 +127,8 @@ input{
   overflow: hidden;
   width: 300px;
   height: 315px;
-  top: 20%;
-  left: 45%;
-  margin-top: -100px;
-  margin-left: -150px;
+  top: 50%;
+  left: 55%;
   background-color: white;
   border-radius: 5px;
   text-align:center;

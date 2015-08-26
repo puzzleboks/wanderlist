@@ -50,14 +50,14 @@ $(document).ready(function() {
   });
 
   //help
-  $(".help").on("click", function(){
+  $("#helpdesk").on("click", function(){
     console.log("help clicked")
     $(".help-message").toggle();
   });
-  $("#exithelp-button").on("click", function(){
-    console.log("exit button clicked")
-    $(".help-message").toggle();
-  });
+  // $("#exithelp-button").on("click", function(){
+  //   console.log("exit button clicked")
+  //   $(".help-message").toggle();
+  // });
   //sign out
   $(".sign-out").on("click", function(){
     console.log("sign out clicked")
