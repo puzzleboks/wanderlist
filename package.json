@@ -2,7 +2,7 @@
   "name": "wanderlist",
   "version": "1.0.0",
   "description": "An interactive pinboard where users can share their adventures and desired trips.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
