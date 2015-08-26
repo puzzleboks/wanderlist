@@ -61,21 +61,20 @@ $(document).ready(function() {
 
   Pin.fetch(1).then(function(pins){
     pins.forEach(function(pin){
-      console.log("------")
-      console.log(pin)
-      console.log(pin.title);
-      console.log(pin.latitude);
-      console.log(pin.longitude);
-      console.log("pin id: " + pin.id)
+      console.log(pin + " " + pin.title + " " + pin.latitude + " " + pin.longitude + " " + pin.id)
       if(pin.isRed == true){
         L.marker([pin.latitude, pin.longitude], {
           icon: redPin,
-          draggable: true
+          draggable: true,
+          clickable: true,
+          title: pin.title + " id" + pin.id
         }).addTo(map);
       }
       else {
         L.marker([pin.latitude, pin.longitude], {
           icon: greenPin,
+          clickable: true,
+          title: pin.title + " id" + pin.id
         }).addTo(map);
       }
     })
@@ -108,11 +107,13 @@ $(document).ready(function() {
 
   var redMarker = L.marker([lat, long], {
     icon: redPin,
-    draggable: true
+    draggable: true,
+    clickable: true
   });
   var greenMarker = L.marker([lat, long], {
     icon: greenPin,
-    draggable: true
+    draggable: true,
+    clickable: true
   });
   $("#redPinBtn").click(function(){
     console.log("click")
@@ -121,7 +122,7 @@ $(document).ready(function() {
   $("#greenPinBtn").click(function() {
     console.log("greenclick")
     greenMarker.addTo(map);
-  })
+  });
 
   // add and remove sidebar on pin click
 
@@ -130,15 +131,33 @@ $(document).ready(function() {
   })
 
   $(".leaflet-marker-pane").on("click", function() {
-    console.log("clicked a pin");
     if($(".popup_bar").css("display") == "none"){
       $(".popup_bar").toggle();
-      console.log("popup bar should toggle")
     }
     else {
       console.log("Already showing");
     }
-    console.log(event.target)
+    var temp = event.target.title.split(" id")
+    var pinId = temp[1]
+    var pinTitle = temp[0]
+    var photoUrls = []
+    var divCreator = $("<div></div>")
+    Pin.show(1, pinId).then(function(response){
+      divCreator.append("<div>"+response.title+"</div>")
+      divCreator.append("<div>"+response.description+"</div>")
+
+    })
+    Pin.getPhotos(pinId).then(function(response){
+      for(var i = 0; i < response.length; i++){
+        photoUrls.push(response[i].photoUrl);
+      }
+    })
+    .then(function(response){
+      photoUrls.forEach(function(photoUrl){
+        divCreator.append("<img src="+photoUrl+">")
+      })
+      $(".popup_bar").html(divCreator)
+    })
   })
 
 });
