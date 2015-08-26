@@ -127,10 +127,8 @@ input{
   overflow: hidden;
   width: 300px;
   height: 315px;
-  top: 20%;
-  left: 45%;
-  margin-top: -100px;
-  margin-left: -150px;
+  top: 50%;
+  left: 55%;
   background-color: white;
   border-radius: 5px;
   text-align:center;
@@ -192,4 +190,13 @@ input{
   width: 158px;
   height: 28px;
   /*float: left;*/
+}
+.saveButton {
+  width: 3em;
+  border-radius: 20px;
+  border: 1px solid green;
+  margin: 0 auto;
+  text-align: center;
+  border-bottom: 2px solid green;
+  border-right: 2px solid green;
 }

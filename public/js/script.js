@@ -3,10 +3,14 @@ $(document).ready(function() {
   $(".popup_bar").hide();
   $(".next_arrow").hide()
   $(".previous_arrow").hide()
+  $(".saveButton").hide();
 
 
   var lat     = 13.5333;
   var long    = 2.0833;
+
+  var pinLat = 13.5333;
+  var pinLong = 2.0833;
 
   $(".dropdown-toggle").on("click", function() {
     console.log("click");
@@ -50,14 +54,14 @@ $(document).ready(function() {
   });
 
   //help
-  $(".help").on("click", function(){
+  $("#helpdesk").on("click", function(){
     console.log("help clicked")
     $(".help-message").toggle();
   });
-  $("#exithelp-button").on("click", function(){
-    console.log("exit button clicked")
-    $(".help-message").toggle();
-  });
+  // $("#exithelp-button").on("click", function(){
+  //   console.log("exit button clicked")
+  //   $(".help-message").toggle();
+  // });
   //sign out
   $(".sign-out").on("click", function(){
     console.log("sign out clicked")
@@ -148,9 +152,9 @@ $(document).ready(function() {
     clickable: true,
   });
 
-  redMarker.on('click', function () {
-    redMarker.bounce({duration: 500, height: 100});
-  });
+  // redMarker.on('click', function () {
+  //   redMarker.bounce({duration: 500, height: 100});
+  // });
 
   var greenMarker = L.marker([lat, long], {
     icon: greenPin,
@@ -172,10 +176,18 @@ $(document).ready(function() {
     var gm = redMarker.getLatLng();
     console.log(gm.lat);
     console.log(gm.lng);
+    pinLat = gm.lat;
+    console.log("pinLat is currently "+pinLat)
+    pinLong = gm.lng;
+    newPinWindow();
 
     var rm = greenMarker.getLatLng();
     console.log(rm.lat);
     console.log(rm.lng);
+    pinLat = gm.lat;
+    pinLong = gm.lng;
+    newPinWindow();
+
     //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
   }
   // every time the marker is dragged, update the coordinates container
@@ -187,6 +199,7 @@ $(document).ready(function() {
 
   $(".leaflet-tile-pane").on("click", function() {
     $(".popup_bar").hide();
+    $(".saveButton").hide();
   })
 
   $(".leaflet-marker-pane").on("click", function() {
@@ -201,56 +214,93 @@ $(document).ready(function() {
     var pinTitle = temp[0]
     var photoUrls = []
     var whichPhotoCounter = 0;
-    Pin.show(1, pinId).then(function(response){
-      $(".title").html(response.title);
-      $(".description").html(response.description);
-      // divCreator.html("<div>"+response.title+"</div>")
-      // divCreator.html("<div>"+response.description+"</div>")
-    })
-    Pin.getPhotos(pinId).then(function(response){
-      for(var i = 0; i < response.length; i++){
-        photoUrls.push(response[i].photoUrl);
-      }
-    })
-    .then(function(response){
-      if (photoUrls.length == 0) {
-        $(".next_arrow").hide()
-        $(".previous_arrow").hide()
+    if(pinId){
+      Pin.show(1, pinId).then(function(response){
+        $(".title").html(response.title);
+        $(".description").html(response.description);
+        // divCreator.html("<div>"+response.title+"</div>")
+        // divCreator.html("<div>"+response.description+"</div>")
+      })
+      Pin.getPhotos(pinId).then(function(response){
+        for(var i = 0; i < response.length; i++){
+          photoUrls.push(response[i].photoUrl);
+        }
+      })
+      .then(function(response){
+        if (photoUrls.length == 0) {
+          $(".next_arrow").hide()
+          $(".previous_arrow").hide()
 
-        $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
-      }
-      else {
-        $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
-        $(".next_arrow").show()
-        $(".next_arrow").on("click", function(){
-          $(".previous_arrow").show()
-          whichPhotoCounter++;
-          if(photoUrls[whichPhotoCounter]){
-            $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
-          }
-          else {
-            $(".next_arrow").hide()
-            $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
-          }
-        })
-        $(".previous_arrow").on("click", function() {
+          $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+        }
+        else {
+          $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
           $(".next_arrow").show()
-          whichPhotoCounter--;
-          if(whichPhotoCounter == 0){
-            $(".previous_arrow").hide()
-          }
-          if(photoUrls[whichPhotoCounter]){
-            $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
-          }
-          else {
-            $(".previous_arrow").hide()
-            $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
-          }
+          $(".next_arrow").on("click", function(){
+            $(".previous_arrow").show()
+            whichPhotoCounter++;
+            if(photoUrls[whichPhotoCounter]){
+              $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+            }
+            else {
+              $(".next_arrow").hide()
+              $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+            }
+          })
+          $(".previous_arrow").on("click", function() {
+            $(".next_arrow").show()
+            whichPhotoCounter--;
+            if(whichPhotoCounter == 0){
+              $(".previous_arrow").hide()
+            }
+            if(photoUrls[whichPhotoCounter]){
+              $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+            }
+            else {
+              $(".previous_arrow").hide()
+              $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+            }
 
-        })
+          })
 
-      }
-      // $(".popup_bar").html(divCreator)
+        }
+        // $(".popup_bar").html(divCreator)
+      })
+    }
+    // if a new pin, then do the following////
+    else {
+      newPinWindow();
+    }
+
+  })
+  function newPinWindow() {
+    if($(".popup_bar").css("display") == "none"){
+      $(".popup_bar").toggle();
+    }
+    $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+    $(".title").html("<input type='text' placeholder='New Pin'>");
+    $(".description").html("<input type='text' placeholder='Enter Description Here...'>")
+    console.log("The window thinks the lat/long is "+pinLat + " " + pinLong)
+    $(".saveButton").show()
+  }
+  $(".saveButton").on("click", function() {
+    var title = $(".title").children().eq(0).val()
+    console.log(title)
+    var latitude = pinLat;
+    var longitude = pinLong;
+    var userId = 1;
+    var isRed = true;
+    var description = $(".description").children().eq(0).val()
+    console.log(description)
+    $.ajax({
+      url: "http://localhost:3000/users/1/pins",
+      type: "POST",
+      dataType: "json",
+      data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
+    }).done(function(response){
+      console.log(response);
+    }).fail(function(response){
+      console.log("post to pin failed");
     })
   })
 })
