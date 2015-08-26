@@ -89,3 +89,29 @@ img {
   text-align: left;
   font: 13px/1.8 Georgia, Times, sans-serif;
 }
+
+.account-information{
+  position: absolute;
+  overflow: hidden;
+  width: 300px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -150px;
+  background-color: white;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.account-information h2 {
+  color: #232323;
+  text-transform: uppercase;
+  font: 35px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+.account-information p {
+  color: #444;
+  text-align: left;
+  font: 13px/1.8 Georgia, Times, sans-serif;
+}

@@ -19,6 +19,33 @@ $(document).ready(function() {
     $(".help_window").hide();
   });
 
+  /////////// nav bar clickdown //////////
+  $(".dropdown-toggle").on("click", function(){
+    console.log("menu bar clicked")
+    $(".dropdown-menu").show();
+  });
+
+  //my account
+  $(".my-account").on("click", function(){
+    console.log("my acount clicked")
+    $(".account-information").toggle();
+  });
+
+  //help
+  $(".help").on("click", function(){
+    console.log("help clicked")
+  });
+  //sign out
+  $(".sign-out").on("click", function(){
+    console.log("sign out clicked")
+  });
+  //share link
+  $(".share-link").on("click", function(){
+    console.log("share clicked")
+  });
+
+  // red and green pin variables
+
   var redPin = L.icon({
     iconUrl: '../public/images/PinDown1.png',
     iconSize: [22, 27],
@@ -31,6 +58,7 @@ $(document).ready(function() {
   })
 
   //fetch pins from user 1
+
   Pin.fetch(1).then(function(pins){
     pins.forEach(function(pin){
       console.log("------")
@@ -96,7 +124,7 @@ $(document).ready(function() {
   })
 
   // add and remove sidebar on pin click
-  
+
   $(".leaflet-tile-pane").on("click", function() {
     $(".popup_bar").hide();
   })
@@ -113,4 +141,4 @@ $(document).ready(function() {
     console.log(event.target)
   })
 
-})
+});
