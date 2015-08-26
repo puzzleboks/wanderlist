@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require("../db/connection").models.User;
 var Pin = require("../db/connection").models.Pin;
 
+
 function error(response, message){
   response.status(500);
   response.json({error: message})
@@ -60,5 +61,6 @@ router.delete("/users/:id", function(req, res){
     });
   });
 });
+
 
 module.exports = router;

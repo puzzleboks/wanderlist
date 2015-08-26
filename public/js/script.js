@@ -143,23 +143,10 @@ map.scrollWheelZoom.disable();
       console.log("user pressed enter")
     }
   })
+  // users/1/pins gets a json list of that user's pins
 
-  ///////////// help window ///////////////
   $("body").click(function(){
     $(".overlay").hide();
     $(".help_window").hide();
-    $(".popup_bar").hide();
   });
-
-
-  ///////////// pin click ////////////////
-  myLayer.on("click", function(e) {
-    if($(".popup_bar").css("display") == "none"){
-      $(".popup_bar").toggle();
-    }
-    else {
-      console.log("Already showing");
-    }
-    console.log(this);
-  })
 });
