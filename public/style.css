@@ -193,3 +193,12 @@ input{
   height: 28px;
   /*float: left;*/
 }
+.saveButton {
+  width: 3em;
+  border-radius: 20px;
+  border: 1px solid green;
+  margin: 0 auto;
+  text-align: center;
+  border-bottom: 2px solid green;
+  border-right: 2px solid green;
+}
