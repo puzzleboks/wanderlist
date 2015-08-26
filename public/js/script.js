@@ -23,6 +23,25 @@ $(document).ready(function() {
     $(".dropdown-menu").show();
   });
 
+  //my account
+  $(".my-account").on("click", function(){
+    console.log("my acount clicked")
+    $(".account-information").toggle();
+  });
+
+  //help
+  $(".help").on("click", function(){
+    console.log("help clicked")
+  });
+  //sign out
+  $(".sign-out").on("click", function(){
+    console.log("sign out clicked")
+  });
+  //share link
+  $(".share-link").on("click", function(){
+    console.log("share clicked")
+  });
+
 
   var redPin = L.icon({
     iconUrl: '../public/images/PinDown1.png',
@@ -80,6 +99,5 @@ $(document).ready(function() {
       })
       $(".form-control").val("")
     }
-  })
-
+  });
 })
