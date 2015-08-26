@@ -155,7 +155,9 @@ map.scrollWheelZoom.disable();
 
 
   ///////////// pin click ////////////////
-  myLayer.on("click", function(e) {
+  myLayer.on("click", function() {
+    // var coords = e.layer.feature.geometry.coordinates;
+
     if($(".popup_bar").css("display") == "none"){
       $(".popup_bar").toggle();
     }
@@ -166,4 +168,67 @@ map.scrollWheelZoom.disable();
     console.log(this);
     console.log(event.target)
   })
+
+  //////////// pin drag test ////////////
+  // myLayer.on('layeradd', function(e) {
+  //   L.marker(new L.LatLng(25.7753,80.2089), {
+  //     icon: L.mapbox.marker.icon(e.myLayer.feature.properties.icon),
+  //     draggable: true
+  //   })
+  //   .on('dragend', function(e){
+  //     console.log(e);
+  //   })
+  //   .addTo(map);
+  // });
+
+  // myTestLayer.eachLayer(function(e){
+  //   var coords = e.myTestLayer.feature.geometry.coordinates;
+  //   console.log(coords);
+  // });
+
+  // myLayer.eachLayer(function(m) {
+  //   var coords = m.myLayer.geometry.coordinates;
+  //   console.log("fuck");
+  //   console.log(coords);
+  //   L.marker(new L.LatLng(coords[1], coords[0]), {
+  //     icon: L.mapbox.marker.icon(m.myLayer.properties),
+  //     draggable: true
+  //   })
+  //   .on('dragend', function(m) {
+  //       console.log(m);
+  //   })
+  //   .addTo(map);
+  // });
+  var myIcon = L.icon({
+  	iconUrl: '../public/images/PinDown1.png',
+  	// iconRetinaUrl: 'my-icon@2x.png',
+  	iconSize: [22, 27],
+  	iconAnchor: [4, 25],
+  	// popupAnchor: [-3, -76],
+  	// shadowUrl: 'my-icon-shadow.png',
+  	// shadowRetinaUrl: 'my-icon-shadow@2x.png',
+  	// shadowSize: [68, 95],
+  	// shadowAnchor: [22, 94]
+  });
+  var marker = L.marker([64.92354174306496, 103.18359375], {
+    icon: myIcon,
+    draggable: true
+  });
+  $("#redPinBtn").click(function(){
+    marker.addTo(map);
+  });
+
+  // every time the marker is dragged, update the coordinates container
+  marker.on('dragend', ondragend);
+
+  // Set the initial marker coordinate on load.
+  ondragend();
+
+  function ondragend() {
+    var m = marker.getLatLng();
+    console.log(m.lat);
+    console.log(m.lng);
+    //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
+  }
+
 });
