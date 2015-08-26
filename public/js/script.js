@@ -16,6 +16,10 @@ $(document).ready(function() {
   // Create a map in the div #map
   var map = L.mapbox.map('map', 'mapbox.streets').setView([lat, long], 3);
   map.scrollWheelZoom.disable();
+  //pan to location of current pin clicked - doesn't work yet
+  map.featureLayer.on('click', function(e) {
+      map.panTo(e.layer.getLatLng());
+  });
 
   $("body").click(function(){
     $(".overlay").hide();
@@ -123,18 +127,35 @@ $(document).ready(function() {
     }
   })
 
+  var myIcon = L.icon({
+    iconUrl: '../public/images/PinDown1.png',
+    // iconRetinaUrl: 'my-icon@2x.png',
+    iconSize: [22, 27],
+    iconAnchor: [4, 25],
+    // popupAnchor: [-3, -76],
+    // shadowUrl: 'my-icon-shadow.png',
+    // shadowRetinaUrl: 'my-icon-shadow@2x.png',
+    // shadowSize: [68, 95],
+    // shadowAnchor: [22, 94]
+  });
   // add green and red pin drop and drag
 
   var redMarker = L.marker([lat, long], {
     icon: redPin,
     draggable: true,
-    clickable: true
+    clickable: true,
   });
+
+  redMarker.on('click', function () {
+    redMarker.bounce({duration: 500, height: 100});
+  });
+
   var greenMarker = L.marker([lat, long], {
     icon: greenPin,
     draggable: true,
-    clickable: true
+    clickable: true,
   });
+
   $("#redPinBtn").click(function(){
     console.log("click")
     redMarker.addTo(map);
@@ -144,13 +165,8 @@ $(document).ready(function() {
     greenMarker.addTo(map);
   });
 
-  // every time the marker is dragged, update the coordinates container
-  redMarker.on("dragEnd", onDragEnd)
-
   // Set the initial marker coordinate on load.
-  onDragEnd();
-
-  function onDragEnd() {
+  function ondragend() {
     var gm = redMarker.getLatLng();
     console.log(gm.lat);
     console.log(gm.lng);
@@ -160,6 +176,11 @@ $(document).ready(function() {
     console.log(rm.lng);
     //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
   }
+  // every time the marker is dragged, update the coordinates container
+  redMarker.on('dragend', ondragend);
+  greenMarker.on('dragend', ondragend);
+
+
   // add and remove sidebar on pin click
 
   $(".leaflet-tile-pane").on("click", function() {
@@ -230,5 +251,4 @@ $(document).ready(function() {
       // $(".popup_bar").html(divCreator)
     })
   })
-
-});
+})
