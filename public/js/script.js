@@ -39,6 +39,7 @@ $(document).ready(function() {
   $("#edit-button").on("click", function(){
     console.log("exit button clicked")
     $(".account-information").toggle();
+    alert("Your changes have been saved!")
   });
 
   //help
@@ -139,6 +140,22 @@ $(document).ready(function() {
     greenMarker.addTo(map);
   })
 
+  // every time the marker is dragged, update the coordinates container
+  redMarker.on("dragEnd", onDragEnd)
+
+  // Set the initial marker coordinate on load.
+  onDragEnd();
+
+  function onDragEnd() {
+    var gm = redMarker.getLatLng();
+    console.log(gm.lat);
+    console.log(gm.lng);
+
+    var rm = greenMarker.getLatLng();
+    console.log(rm.lat);
+    console.log(rm.lng);
+    //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
+  }
   // add and remove sidebar on pin click
 
   $(".leaflet-tile-pane").on("click", function() {
