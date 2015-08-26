@@ -7,7 +7,6 @@ var router = express.Router();
 var methodOverride = require('method-override')
 var env = require("../env")
 var session = require("express-session")
-var passport = require("passport")
 
 app.use(methodOverride('_method'))
 app.use(express.static("public"))
@@ -16,6 +15,8 @@ app.use(session({
   key: "sid",
   cookie: { secure:true }
 }))
+
+var passport = require("passport")
 var TwitterStrategy = require("passport-twitter").Strategy
 passport.serializeUser(function(user, done){
   done(null, user)
@@ -27,9 +28,9 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 passport.use(new TwitterStrategy({
-  consumerKey: env.consumerKey,
-  consumerSecret: env.consumerSecret,
-  callbackUrl: env.callbackUrl
+  consumerKey: env.twitter.consumerKey,
+  consumerSecret: env.twitter.consumerSecret,
+  callbackUrl: env.twitter.callbackUrl
 }, function(aToken, aTokenSecret, aProfile, done){
   token = aToken
   TokenSecret = aTokenSecret
@@ -76,9 +77,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new GoogleStrategy({
-    consumerKey: env.consumerKey,
-    consumerSecret: env.consumerSecret,
-    callbackURL: env.callbackUrl
+    consumerKey: env.google.consumerKey,
+    consumerSecret: env.google.consumerSecret,
+    callbackURL: env.google.callbackUrl
   },
   function(token, tokenSecret, profile, done) {
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
