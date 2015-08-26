@@ -17,11 +17,27 @@
   </head>
   <body>
     {{{ body }}}
-    <!-- <div class="overlay"></div>
-    <div class="help_window"><h2>wanderlist</h2><p>an interactive pinboard where users can share their adventures and desired trips. Please clink on a pin and start doing something...</p></div> -->
-    <div class="account-information" style="display">
+    <!-- <div class="overlay"></div> -->
+    <!-- <div class="help_window"><h2>wanderlist</h2><p>an interactive pinboard where users can share their adventures and desired trips. Please clink on a pin and start doing something...</p></div> --> --> -->
+    <div class="account-information">
       <h2>edit your account</h2>
-      <p>here is where the edit fields will live</p>
+      <form>
+        First name:<br>
+        <input type="text" name="firstname">
+        <br>
+        Last name:<br>
+        <input type="text" name="lastname">
+        <br>
+        email address:<br>
+        <input type="text" name="email">
+        <br>
+        <input type="button" value="submit changes" name="submit" id="edit-button">
+        <input type="button" value="exit" name="submit" id="exit-button">
+        <br>
+      </form>
+    </div>
+    <div class="help-message">Need some help getting started?<br><br> Green pins are for places you've been in the world, and red pins are for all the places you'd like to go.<br><br> Feel free to use the search box to find a city or country of your choosing, or utilize those excellent geography skills by grabbing and dropping the pins at the top of the page!<br><br> Happy wandering.
+      <input type="button" value="x" name="submit" id="exithelp-button">
     </div>
   <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
