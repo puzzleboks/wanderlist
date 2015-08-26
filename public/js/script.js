@@ -1,230 +1,256 @@
-$(document).ready(function(){
+$(document).ready(function() {
+
   $(".popup_bar").hide();
+  $(".next_arrow").hide()
+  $(".previous_arrow").hide()
+
+
   var lat     = 13.5333;
   var long    = 2.0833;
+
+  $(".dropdown-toggle").on("click", function() {
+    console.log("click");
+  })
 
   L.mapbox.accessToken = 'pk.eyJ1IjoiYWxleGJhbm5vbiIsImEiOiIzM2I3MWU4NjhlNjc5ODYzN2NjMWFhYzU4OWIzOGYzYiJ9.zVY-I01f5Pie1XCaA0Laog';
   // Create a map in the div #map
   var map = L.mapbox.map('map', 'mapbox.streets').setView([lat, long], 3);
+  map.scrollWheelZoom.disable();
+  //pan to location of current pin clicked - doesn't work yet
+  map.featureLayer.on('click', function(e) {
+      map.panTo(e.layer.getLatLng());
+  });
 
-  var myLayer = L.mapbox.featureLayer().addTo(map);
+  $("body").click(function(){
+    $(".overlay").hide();
+    $(".help_window").hide();
+  });
 
-// myLayer.on("click", function(){
-//   $(".popup_bar").toggle();
-//   $(".popup_bar").html($(event.target).attr("class"));
-//   console.log($(event.target))
-//   // if($(this).attr("class") == "potato"){
-//   //   console.log("potato")
-//   // }
-//   // else{
-//   //   console.log("womp womp")
-//   // }
-//   //
-//
-//   // $(".popup_bar").toggle();
-//   // $(".popup_bar").empty()
-//   // $(".popup_bar").html("<p>"+this["_geojson"][0]["properties"]["title"]+"</p>")
-//   // console.log(this["_geojson"][0]["properties"]["title"])
-// })
+  /////////// nav bar clickdown //////////
+  $(".dropdown-toggle").on("click", function(){
+    console.log("menu bar clicked")
+    $(".dropdown-menu").toggle();
+  });
 
-map.scrollWheelZoom.disable();
+  //my account
+  $(".my-account").on("click", function(){
+    console.log("my acount clicked")
+    $(".account-information").toggle();
+  });
+  //exiting account information
+  $("#exit-button").on("click", function(){
+    console.log("exit button clicked")
+    $(".account-information").toggle();
+  });
+  //editing account information
+  $("#edit-button").on("click", function(){
+    console.log("exit button clicked")
+    $(".account-information").toggle();
+    alert("Your changes have been saved!")
+  });
 
-/////////////// adding original pins of user 1 /////////////
-  var geoJson = []
-  Pin.fetch(1).then(function(pins){
-    pins.forEach(function(pin){
-      if(pin.isRed == true){
-        console.log("------")
-        console.log(pin.title);
-        console.log(pin.latitude);
-        console.log(pin.longitude);
-        geoJson.push(
-          {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [pin.longitude, pin.latitude]
-            },
-            "properties": {
-                "title": pin.title,
-                "description": pin.description,
-                "icon": {
-                    "iconUrl": "../public/images/PinDown1.png",
-                    "iconSize": [22, 27], // size of the icon
-                    "iconAnchor": [4, 25], // point of the icon which will correspond to marker's location
-                    "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-                    "className": pin.isRed
-                }
-            }
-          }
-        )
-      }
-      else {
-        console.log("------")
-        console.log(pin.title);
-        console.log(pin.latitude);
-        console.log(pin.longitude);
-        geoJson.push(
-          {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [pin.longitude, pin.latitude]
-            },
-            "properties": {
-                "title": pin.title,
-                "description": pin.description,
-                "icon": {
-                    "iconUrl": "../public/images/PinDown1Green.png",
-                    "iconSize": [22, 27], // size of the icon
-                    "iconAnchor": [4, 25], // point of the icon which will correspond to marker's location
-                    "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-                    "className": pin.isRed
-                }
-            }
-          }
-        )
-      }
-    })
-  }).then(function(){
-    myLayer.on('layeradd', function(e) {
-        var marker = e.layer,
-            feature = marker.feature;
+  //help
+  $(".help").on("click", function(){
+    console.log("help clicked")
+    $(".help-message").toggle();
+  });
+  $("#exithelp-button").on("click", function(){
+    console.log("exit button clicked")
+    $(".help-message").toggle();
+  });
+  //sign out
+  $(".sign-out").on("click", function(){
+    console.log("sign out clicked")
+  });
+  //share link
+  $(".share-link").on("click", function(){
+    console.log("share clicked")
+    alert("your link is www.wanderlistforever.com/OG")
+  });
 
-        marker.setIcon(L.icon(feature.properties.icon));
-    });
+  // red and green pin variables
 
-    myLayer.setGeoJSON(geoJson);
+  var redPin = L.icon({
+    iconUrl: '../public/images/PinDown1.png',
+    iconSize: [22, 27],
+    iconAnchor: [4, 25],
+  });
+  var greenPin = L.icon({
+    iconUrl: '../public/images/PinDown1Green.png',
+    iconSize: [22, 27],
+    iconAnchor: [4, 25],
   })
 
-  /////////////search bar///////////////////
+  //fetch pins from user 1
+
+  Pin.fetch(1).then(function(pins){
+    pins.forEach(function(pin){
+      console.log(pin + " " + pin.title + " " + pin.latitude + " " + pin.longitude + " " + pin.id)
+      if(pin.isRed == true){
+        L.marker([pin.latitude, pin.longitude], {
+          icon: redPin,
+          draggable: true,
+          clickable: true,
+          title: pin.title + " id" + pin.id
+        }).addTo(map);
+      }
+      else {
+        L.marker([pin.latitude, pin.longitude], {
+          icon: greenPin,
+          clickable: true,
+          title: pin.title + " id" + pin.id
+        }).addTo(map);
+      }
+    })
+  })
+
+  // add search bar functionality to add red pin
 
   $(".form-control").on("keypress", function(e){
     if(e.which == 13){
       e.preventDefault();
       var user_search = $(".form-control").val()
+      console.log("user_search is "+user_search)
       var request = $.getJSON("https://api.mapbox.com/v4/geocode/mapbox.places/"+user_search+".json?access_token=pk.eyJ1IjoiYWxleGJhbm5vbiIsImEiOiIzM2I3MWU4NjhlNjc5ODYzN2NjMWFhYzU4OWIzOGYzYiJ9.zVY-I01f5Pie1XCaA0Laog")
       .then(function(response){
+        console.log(response)
         var search_location = response.features[0].geometry.coordinates
-
         console.log(search_location)
-
-        geoJson.push(
-          {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [search_location[0], search_location[1]]
-            },
-            "properties": {
-                "title": user_search,
-                "description": response.features[0].text,
-                "icon": {
-                    "iconUrl": "../public/images/PinDown1.png",
-                    "iconSize": [22, 27], // size of the icon
-                    "iconAnchor": [4, 25], // point of the icon which will correspond to marker's location
-                    "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-                    "className": "true"
-                }
-            }
-          }
-        )
-        myLayer.on('layeradd', function(e) {
-            var marker = e.layer,
-                feature = marker.feature;
-
-            marker.setIcon(L.icon(feature.properties.icon));
-        });
-        myLayer.setGeoJSON(geoJson);
+        L.marker([search_location[1], search_location[0]], {
+          icon: redPin,
+          draggable: true
+        }).addTo(map)
+      }).fail(function(response){
+        console.log("failed to load coordinates from search");
       })
       $(".form-control").val("")
-      console.log("-------------geoJSON----------")
-      console.log(geoJson)
-      console.log("user pressed enter")
     }
   })
+  // users/1/pins gets a json list of that user's pins
 
-  ///////////// help window ///////////////
-  $("body").click(function(){
-    $(".overlay").hide();
-    $(".help_window").hide();
-    $(".popup_bar").hide();
+  var myIcon = L.icon({
+    iconUrl: '../public/images/PinDown1.png',
+    // iconRetinaUrl: 'my-icon@2x.png',
+    iconSize: [22, 27],
+    iconAnchor: [4, 25],
+    // popupAnchor: [-3, -76],
+    // shadowUrl: 'my-icon-shadow.png',
+    // shadowRetinaUrl: 'my-icon-shadow@2x.png',
+    // shadowSize: [68, 95],
+    // shadowAnchor: [22, 94]
   });
 
+  // add green and red pin drop and drag
 
-  ///////////// pin click ////////////////
-  myLayer.on("click", function() {
-    // var coords = e.layer.feature.geometry.coordinates;
+  var redMarker = L.marker([lat, long], {
+    icon: redPin,
+    draggable: true,
+    clickable: true,
+  });
 
+  redMarker.on('click', function () {
+    redMarker.bounce({duration: 500, height: 100});
+  });
+
+  var greenMarker = L.marker([lat, long], {
+    icon: greenPin,
+    draggable: true,
+    clickable: true,
+  });
+
+  $("#redPinBtn").click(function(){
+    console.log("click")
+    redMarker.addTo(map);
+  });
+  $("#greenPinBtn").click(function() {
+    console.log("greenclick")
+    greenMarker.addTo(map);
+  });
+
+  // Set the initial marker coordinate on load.
+  function ondragend() {
+    var gm = redMarker.getLatLng();
+    console.log(gm.lat);
+    console.log(gm.lng);
+
+    var rm = greenMarker.getLatLng();
+    console.log(rm.lat);
+    console.log(rm.lng);
+    //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
+  }
+  // every time the marker is dragged, update the coordinates container
+  redMarker.on('dragend', ondragend);
+  greenMarker.on('dragend', ondragend);
+
+
+  // add and remove sidebar on pin click
+
+  $(".leaflet-tile-pane").on("click", function() {
+    $(".popup_bar").hide();
+  })
+
+  $(".leaflet-marker-pane").on("click", function() {
     if($(".popup_bar").css("display") == "none"){
       $(".popup_bar").toggle();
     }
     else {
       console.log("Already showing");
     }
-    console.log(this);
+    var temp = event.target.title.split(" id")
+    var pinId = temp[1]
+    var pinTitle = temp[0]
+    var photoUrls = []
+    var whichPhotoCounter = 0;
+    Pin.show(1, pinId).then(function(response){
+      $(".title").html(response.title);
+      $(".description").html(response.description);
+      // divCreator.html("<div>"+response.title+"</div>")
+      // divCreator.html("<div>"+response.description+"</div>")
+    })
+    Pin.getPhotos(pinId).then(function(response){
+      for(var i = 0; i < response.length; i++){
+        photoUrls.push(response[i].photoUrl);
+      }
+    })
+    .then(function(response){
+      if (photoUrls.length == 0) {
+        $(".next_arrow").hide()
+        $(".previous_arrow").hide()
+
+        $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+      }
+      else {
+        $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+        $(".next_arrow").show()
+        $(".next_arrow").on("click", function(){
+          $(".previous_arrow").show()
+          whichPhotoCounter++;
+          if(photoUrls[whichPhotoCounter]){
+            $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+          }
+          else {
+            $(".next_arrow").hide()
+            $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+          }
+        })
+        $(".previous_arrow").on("click", function() {
+          $(".next_arrow").show()
+          whichPhotoCounter--;
+          if(whichPhotoCounter == 0){
+            $(".previous_arrow").hide()
+          }
+          if(photoUrls[whichPhotoCounter]){
+            $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+          }
+          else {
+            $(".previous_arrow").hide()
+            $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+          }
+
+        })
+
+      }
+      // $(".popup_bar").html(divCreator)
+    })
   })
-
-  //////////// pin drag test ////////////
-  // myLayer.on('layeradd', function(e) {
-  //   L.marker(new L.LatLng(25.7753,80.2089), {
-  //     icon: L.mapbox.marker.icon(e.myLayer.feature.properties.icon),
-  //     draggable: true
-  //   })
-  //   .on('dragend', function(e){
-  //     console.log(e);
-  //   })
-  //   .addTo(map);
-  // });
-
-  // myTestLayer.eachLayer(function(e){
-  //   var coords = e.myTestLayer.feature.geometry.coordinates;
-  //   console.log(coords);
-  // });
-
-  // myLayer.eachLayer(function(m) {
-  //   var coords = m.myLayer.geometry.coordinates;
-  //   console.log("fuck");
-  //   console.log(coords);
-  //   L.marker(new L.LatLng(coords[1], coords[0]), {
-  //     icon: L.mapbox.marker.icon(m.myLayer.properties),
-  //     draggable: true
-  //   })
-  //   .on('dragend', function(m) {
-  //       console.log(m);
-  //   })
-  //   .addTo(map);
-  // });
-  var myIcon = L.icon({
-  	iconUrl: '../public/images/PinDown1.png',
-  	// iconRetinaUrl: 'my-icon@2x.png',
-  	iconSize: [22, 27],
-  	iconAnchor: [4, 25],
-  	// popupAnchor: [-3, -76],
-  	// shadowUrl: 'my-icon-shadow.png',
-  	// shadowRetinaUrl: 'my-icon-shadow@2x.png',
-  	// shadowSize: [68, 95],
-  	// shadowAnchor: [22, 94]
-  });
-  var marker = L.marker([64.92354174306496, 103.18359375], {
-    icon: myIcon,
-    draggable: true
-  });
-  $("#redPinBtn").click(function(){
-    marker.addTo(map);
-  });
-
-  // every time the marker is dragged, update the coordinates container
-  marker.on('dragend', ondragend);
-
-  // Set the initial marker coordinate on load.
-  ondragend();
-
-  function ondragend() {
-    var m = marker.getLatLng();
-    console.log(m.lat);
-    console.log(m.lng);
-    //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
-  }
-
-});
+})

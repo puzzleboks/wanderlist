@@ -2,6 +2,13 @@ var express = require("express");
 var router = express.Router();
 var User = require("../db/connection").models.User;
 var Pin = require("../db/connection").models.Pin;
+// module.exports = {
+//   index: function(req, res){
+//     User.findAll().then(function(users){
+//       res.render("users/index", {users: users, user: req.session.profile})
+//     })
+//   }
+
 
 function error(response, message){
   response.status(500);
@@ -60,5 +67,6 @@ router.delete("/users/:id", function(req, res){
     });
   });
 });
+
 
 module.exports = router;
