@@ -1,4 +1,5 @@
 var Pin = function(info){
+  this.id = info.id
   this.title = info.title;
   this.latitude = info.latitude;
   this.longitude = info.longitude;

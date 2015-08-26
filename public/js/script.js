@@ -35,9 +35,11 @@ map.scrollWheelZoom.disable();
     pins.forEach(function(pin){
       if(pin.isRed == true){
         console.log("------")
+        console.log(pin)
         console.log(pin.title);
         console.log(pin.latitude);
         console.log(pin.longitude);
+        console.log("pin id: " + pin.id)
         geoJson.push(
           {
             "type": "Feature",
@@ -53,7 +55,7 @@ map.scrollWheelZoom.disable();
                     "iconSize": [22, 27], // size of the icon
                     "iconAnchor": [4, 25], // point of the icon which will correspond to marker's location
                     "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-                    "className": pin.isRed
+                    "className": pin.isRed +" id"+ pin.id //faking adding id to mapbox geojson with unique class name
                 }
             }
           }
@@ -79,7 +81,7 @@ map.scrollWheelZoom.disable();
                     "iconSize": [22, 27], // size of the icon
                     "iconAnchor": [4, 25], // point of the icon which will correspond to marker's location
                     "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-                    "className": pin.isRed
+                    "className": pin.isRed +" "+ pin.id
                 }
             }
           }
@@ -124,7 +126,7 @@ map.scrollWheelZoom.disable();
                     "iconSize": [22, 27], // size of the icon
                     "iconAnchor": [4, 25], // point of the icon which will correspond to marker's location
                     "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
-                    "className": "true"
+                    "className": "true "+ pin.id
                 }
             }
           }
@@ -173,7 +175,9 @@ map.scrollWheelZoom.disable();
     else {
       console.log("Already showing");
     }
+    console.log(this.getGeoJSON())
     console.log(this);
+    console.log(event.target)
   })
 
   //////////// pin drag test ////////////
