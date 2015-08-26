@@ -89,3 +89,9 @@ img {
   text-align: left;
   font: 13px/1.8 Georgia, Times, sans-serif;
 }
+
+.twitSign {
+  width: 158px;
+  height: 28px;
+  /*float: left;*/
+}

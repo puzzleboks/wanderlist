@@ -2,13 +2,11 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var path = require("path");
-var hbs = require("hbs");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/public", express.static(path.join(__dirname + "/public")));
 app.set("view engine", "hbs");
-app.use(express.static("public"))
 
 var usersController = require("./controllers/users");
 var pinsController = require("./controllers/pins");
@@ -41,7 +39,6 @@ passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
 
-var app = express();
 app.use(require("cookie-parser")());
 app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(require("express-session")({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
@@ -58,7 +55,7 @@ app.get("/auth/twitter/login", passport.authenticate("twitter"));
 app.get("/auth/twitter/callback",
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   function(req, res) {
-    res.redirect("/auth/twitter/show");
+    res.redirect("/");
   }
 );
 
@@ -72,8 +69,6 @@ app.get('/signout', function(req, res){
 })
 
 app.get("/", function(req, res){
-  // console.log("hello, you suck")
-  // res.send("Hello world")
   res.render("index", {})
 });
 
