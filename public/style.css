@@ -156,3 +156,35 @@ input{
   font-size: 1.2em;
   margin: 1em .25em 0 .25em;
 }
+.photos {
+  position: relative;
+}
+.changeUrlBar {
+  position: absolute;
+  top: 6.5em;
+  left: 7.5%;
+  width: 100%;
+}
+.changeUrl {
+  width: 85%;
+  text-align: center;
+}
+.changePhotoToOpaque {
+  opacity: 0.5;
+}
+.next_arrow, .previous_arrow {
+  display: inline-block;
+  position: absolute;
+}
+.previous_arrow {
+  top: 9em;
+  left: 0em;
+}
+.previous_arrow:hover, .next_arrow:hover {
+  background-color: rgba(155, 155, 155, .8);
+  cursor: pointer;
+}
+.next_arrow {
+  top: 9em;
+  right: 0em;
+}

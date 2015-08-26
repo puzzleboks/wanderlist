@@ -1,6 +1,9 @@
 $(document).ready(function() {
 
   $(".popup_bar").hide();
+  $(".next_arrow").hide()
+  $(".previous_arrow").hide()
+
 
   var lat     = 13.5333;
   var long    = 2.0833;
@@ -174,6 +177,7 @@ $(document).ready(function() {
     var pinId = temp[1]
     var pinTitle = temp[0]
     var photoUrls = []
+    var whichPhotoCounter = 0;
     Pin.show(1, pinId).then(function(response){
       $(".title").html(response.title);
       $(".description").html(response.description);
@@ -187,12 +191,41 @@ $(document).ready(function() {
     })
     .then(function(response){
       if (photoUrls.length == 0) {
-        $(".photos").html("")
+        $(".next_arrow").hide()
+        $(".previous_arrow").hide()
+
+        $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
       }
       else {
-        photoUrls.forEach(function(photoUrl){
-          $(".photos").html("<img src="+photoUrl+">")
+        $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+        $(".next_arrow").show()
+        $(".next_arrow").on("click", function(){
+          $(".previous_arrow").show()
+          whichPhotoCounter++;
+          if(photoUrls[whichPhotoCounter]){
+            $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+          }
+          else {
+            $(".next_arrow").hide()
+            $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+          }
         })
+        $(".previous_arrow").on("click", function() {
+          $(".next_arrow").show()
+          whichPhotoCounter--;
+          if(whichPhotoCounter == 0){
+            $(".previous_arrow").hide()
+          }
+          if(photoUrls[whichPhotoCounter]){
+            $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+          }
+          else {
+            $(".previous_arrow").hide()
+            $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+          }
+
+        })
+
       }
       // $(".popup_bar").html(divCreator)
     })
