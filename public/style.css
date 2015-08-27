@@ -6,12 +6,18 @@
   box-sizing: inherit;
 }
 
+
+body {
+  padding-top: 50px;
+  position: relative;
+}
+
 html, body{
   min-height: 100%;
 }
 
-body {
-  padding-top: 50px;
+
+.map_container {
   position: relative;
 }
 
@@ -19,43 +25,6 @@ body {
   width: 100%;
   height: 900px;
 }
-
-.green{
-  color: green;
-}
-
-.red{
-  color: red;
-}
-
-.nav-pic {
-  width: 30px;
-  height: 30px;
-}
-
-img {
-  width: 40px;
-  height: 40px;
-}
-
-.map_container {
-  position: relative;
-}
-
-.popup_bar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 30em;
-  border: .5px solid black;
-  opacity: 80%;
-  background-color: rgba(255, 255, 255, .8);
-  -webkit-box-shadow: 15px 15px 10px #777;
-  -moz-box-shadow: 0 15px 10px #777;
-  box-shadow: 0 15px 10px #777;
-}
-
 .overlay {
   position: fixed;
   top: 0;
@@ -92,43 +61,6 @@ img {
   text-align: left;
   font: 13px/1.8 Georgia, Times, sans-serif;
 }
-.account-information{
-  display: none;
-  position: absolute;
-  overflow: hidden;
-  width: 300px;
-  height: 300px;
-  top: 20%;
-  left: 45%;
-  margin-top: -100px;
-  margin-left: -150px;
-  background-color: white;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.account-information h2 {
-  color: #232323;
-  font: 25px/1.5 Helvetica, Verdana, sans-serif;
-}
-
-.account-information p {
-  color: #444;
-  font: 13px/1.8 Georgia, Times, sans-serif;
-}
-
-input{
-  margin: 5pt;
-}
-input.descrip{
-  width: 350px;
-  height: 200px;
-
-}
-
-#edit-button {
-  margin-top: 25pt;
-}
 
 .help-message {
   display:none;
@@ -147,6 +79,51 @@ input.descrip{
   text-align: center;
 }
 
+.account-information{
+  display: none;
+  position: absolute;
+  overflow: hidden;
+  width: 300px;
+  height: 300px;
+  top: 20%;
+  left: 45%;
+  margin-top: -100px;
+  margin-left: -150px;
+  background-color: white;
+  border-radius: 5px;
+  text-align: center;
+}
+.account-information h2 {
+  color: #232323;
+  font: 25px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+.account-information p {
+  color: #444;
+  font: 13px/1.8 Georgia, Times, sans-serif;
+}
+
+.green{
+  color: green;
+}
+
+.red{
+  color: red;
+}
+
+.popup_bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 30em;
+  border: .5px solid black;
+  opacity: 80%;
+  background-color: rgba(255, 255, 255, .8);
+  -webkit-box-shadow: 15px 15px 10px #777;
+  -moz-box-shadow: 0 15px 10px #777;
+  box-shadow: 0 15px 10px #777;
+}
 
 .title {
   text-align: center;
@@ -163,20 +140,48 @@ input.descrip{
   padding-top: 2em;
   padding-bottom: 2em;
   z-index: -1;
-  /*top: 80%;*/
+  top: 80%;
   box-shadow: 0 15px 10px #777;
 
 }
 .description {
   text-align: center;
   font-size: 1.2em;
-  margin: 3em .25em 0 .25em;
-
+  margin: 3em .25em 0 2em;
+  width: 350px;
+  height: 200px;
+  border: 1px solid #999999;
+  padding: 5px;
 }
 .photos {
   position: relative;
-
+  width: 85%;
+  height: auto;
+  margin-left: 2.5em;
 }
+.glyphicon-trash {
+  margin-right: 1em;
+  display: inline-block;
+  position: absolute;
+}
+
+/*
+input{
+  margin: 5pt;
+}
+input.descrip{
+  width: 350px;
+  height: 200px;
+
+}*/
+
+/*#edit-button {
+  margin-top: 25pt;
+}*/
+
+
+
+/*Before a new photo is added*/
 .changeUrlBar {
   position: absolute;
   top: 6.5em;
@@ -190,23 +195,27 @@ input.descrip{
 .changePhotoToOpaque {
   opacity: 0.5;
 }
+
+/*The Arrows for photos*/
+.next_arrow {
+  top: 12em;
+  right: 1em;
+}
+.previous_arrow {
+  top: 12em;
+  left: 1em;
+}
 .next_arrow, .previous_arrow {
   display: inline-block;
   position: absolute;
 }
-.previous_arrow {
-  top: 9em;
-  left: 0em;
-}
-.previous_arrow:hover, .next_arrow:hover {
+/*.previous_arrow:hover, .next_arrow:hover {
   background-color: rgba(155, 155, 155, .8);
   cursor: pointer;
-}
-.next_arrow {
-  top: 9em;
-  right: 0em;
-}
+}*/
 
+
+/*twitter sign in*/
 .twitSign {
   width: 158px;
   height: 28px;
@@ -222,14 +231,14 @@ input.descrip{
   border-right: 2px solid green;
 }
 
-#pin-save-button {
+/*#pin-save-button {
   margin-left: 12em;
   margin-top: 1em;
 }
 #pin-edit-button{
   margin-top: 1em;
   margin-left: 12.2em;
-}
+}*/
 
 /*media queries*/
 @media (max-width: 825px) {
