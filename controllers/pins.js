@@ -8,12 +8,6 @@ function error(response, message){
   response.json({error: message})
 }
 
-router.get("/users/:id/pins", function(req, res){
-  User.findById(req.params.userId).then(function(user){
-    res.json(user.getPins());
-  });
-});
-
 router.get("/pins", function(req,res){
   Pin.findAll().then(function(pins){
     res.json(pins);
@@ -27,7 +21,30 @@ router.get("/pins/:id", function(req, res){
   });
 });
 
-router.patch("/pin/:id", function(req, res){
+router.get("/users/:userId/pins", function(req, res){
+  User.findById(req.params.userId).then(function(user){
+    if(!user) return error(res, "not found");
+    user.getPins().then(function(pins){
+      res.send(pins);
+    });
+  });
+});
+
+router.post("/users/:userId/pins", function(req,res){
+  Pin.create(req.body).then(function(pin){
+    res.json(pin);
+  });
+})
+
+router.get("/users/:userId/pins/:id", function(req,res){
+  Pin.findById(req.params.id).then(function(pin){
+    if(!pin) return error(res, "not found");
+    res.json(pin);
+    console.log(req.params.userId)
+  });
+});
+
+router.patch("/pins/:id", function(req, res){
   Pin.findById(req.params.id).then(function(pin){
     if(!pin) return error(res, "not found");
     pin.updateAttributes(req.body).then(function(updatedPin){
@@ -36,13 +53,7 @@ router.patch("/pin/:id", function(req, res){
   });
 });
 
-router.post("/users/:id/pins", function(req,res){
-  Pin.create(req.body).then(function(pin){
-    res.json(pin);
-  });
-})
-
-router.delete("/pins/:id", function(req, res){
+router.delete("users/:userId/pins/:id", function(req, res){
   Pin.findById(req.params.id).then(function(pin){
     if(!pin) return error(res, "not found");
     pin.destroy().then(function(){

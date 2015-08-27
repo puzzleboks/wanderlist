@@ -229,11 +229,119 @@ $(document).ready(function() {
     var whichPhotoCounter = 0;
     if(pinId){
       Pin.show(1, pinId).then(function(response){
-        $(".title").html(response.title);
-        $(".description").html(response.description);
+        $(".title").html("<span class='clickable_title'>"+response.title+"</span>");
+        $(".description").html("<span class='clickable_description'>"+response.description+"</span>");
         // divCreator.html("<div>"+response.title+"</div>")
         // divCreator.html("<div>"+response.description+"</div>")
+        $(".clickable_title").one("click", function() {
+          var tempCounter = 0;
+          var value = $(".clickable_title").html();
+          $(".clickable_title").html("<input class='editTitle' type='text' value='"+value+"'>")
+          $(".clickable_title").mouseup(function(){
+
+          })
+          $("body").on("click", function(){
+            if($(event.target).attr("class") != "editTitle" && $(event.target).attr("class") != "clickable_title" && tempCounter == 0){
+               tempCounter++
+               value = $(".editTitle").val()
+               console.log("Ajax patch fired");
+               console.log("pinId: "+pinId+ " value: "+value)
+               makeAjaxPatchRequest(pinId, value)
+              //  makeAjaxPatchRequest(1, pinId, title, value);
+            }
+          })
+        })
+        function makeAjaxPatchRequest(pinId, value){
+          $.ajax({
+            url: "http://localhost:3000/pins/"+pinId,
+            type: "PATCH",
+            dataType: "json",
+            data: {"title": value}
+          }).done(function(response){
+            $(".clickable_title").html(response.title)
+            $("body").click(function(event){
+              event.stopPropagation();
+            })
+          }).fail(function(response){
+            console.log("patch to pin failed");
+          })
+        }
+        function clickTitle(){};
+        $(".clickable_word").on("click", function() {
+          var self = this;
+          var valueOfClick = $(self).html()
+          $(self).html("<input class='editbox' type='text' value='"+valueOfClick+"'>")
+          $("body").on("click", function() {
+            if($(event.target).attr("class") != "clickable_word" && $(event.target).attr("class") != "editbox"){
+              var edited_value = $(".editbox").val()
+              var title_or_description = $(self).parent().attr("class");
+              $.ajax({
+                url: "http://localhost:3000/users/1/pins/"+pinId,
+                type: "PATCH",
+                dataType: "json",
+                data: {title_or_description: edited_value}
+              }).done(function(response){
+                $(".temp").eq(0).attr("class", "title");
+                $(".title").html(title)
+              }).fail(function(response){
+                console.log("patch to pin failed");
+                console.log($(".editbox"))
+                $(self).attr("class", "clickable_word");
+                $(self).html("<span class='clickable_word'>"+edited_value+"</span>")
+
+              })
+
+            }
+          })
+        })
       })
+
+      // $(".title").on("click", function() {
+      //   if($(event.target).attr("class") != "editbox"){
+      //     console.log($(event.target).attr("class"))
+      //     var self = this;
+      //     var current_val = $(self).html();
+      //     $(self).html("")
+      //     $(self).html("<input class='editbox' type='text' value='"+current_val+"'>")
+      //     $(".title").attr("class", "editbox")
+      //     $("body").on("click", function() {
+      //       console.log("this shouldn't run because event.target class is "+ $(event.target).attr("class"))
+      //       if($(event.target).attr("class") != "editbox"){
+      //         var title = $(".editbox").eq(1).val()
+      //         $.ajax({
+      //           url: "http://localhost:3000/users/1/pins/"+pinId,
+      //           type: "PATCH",
+      //           dataType: "json",
+      //           data: {"title": title}
+      //         }).done(function(response){
+      //           $(".temp").eq(0).attr("class", "title");
+      //           $(".title").html(title)
+      //         }).fail(function(response){
+      //           console.log("patch to pin failed");
+      //           console.log($(".editbox"))
+      //           $(".editbox").eq(0).attr("class", "title");
+      //           $(".title").html(title)
+      //
+      //         })
+      //       }
+      //     })
+      //   }
+      // })
+      // $(".description").on("click", function(){
+      //   if($(event.target).attr("class") != "editbox"){
+      //     var self = this;
+      //     var current_val = $(self).html();
+      //     $(self).html("")
+      //     $(self).html("<input class='editbox' type='text' value='"+current_val+"'>")
+      //     $(".title").attr("class", "editbox")
+      //     $("body").on("click", function() {
+      //       if($(event.target).attr("class") != "editbox"){
+      //         console.log("done editing");
+      //       }
+      //     })
+      //   }
+      // })
+
       Pin.getPhotos(pinId).then(function(response){
         for(var i = 0; i < response.length; i++){
           photoUrls.push(response[i].photoUrl);
