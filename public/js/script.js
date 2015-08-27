@@ -4,6 +4,7 @@ $(document).ready(function() {
   $(".next_arrow").hide()
   $(".previous_arrow").hide()
   $(".saveButton").hide();
+  $(".deletePhotoButton").hide();
 
   var whichPin;
   var colorPin;
@@ -383,6 +384,7 @@ $(document).ready(function() {
           $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
         }
         else {
+          $(".deletePhotoButton").show();
           $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
           $(".next_arrow").show()
           $(".next_arrow").on("click", function(){
@@ -465,13 +467,23 @@ $(document).ready(function() {
           dataType: "json",
           data: {"photoUrl": pict, "pinId": pinId}
         }).done(function(response){
-          $(".photos").html("<img src='"+ response.photoUrl+"' >")
+          $(".photos").html("<img src='"+ response.photoUrl +"' >")
+
         })
         //console.log(pict);
       }).fail(function(response){
         console.log("post to pin failed");
       })
     })
-
   })
+  $(".deletePhotoButton").on("click", function() {
+    $.ajax({
+      url: "/pins/" + pinId + "/photos/" + photoId,
+      type: "DELETE",
+      dataType: "json",
+      data: {"photoUrl": pict, "pinId": pinId}
+    }).done(function(response){
+      // placeholder $(".photos").html("<img src='"+ response.photoUrl +"' >")
+    })
+  });
 })
