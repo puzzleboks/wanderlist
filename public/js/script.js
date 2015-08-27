@@ -36,6 +36,12 @@ $(document).ready(function() {
     $(".dropdown-menu").toggle();
   });
 
+  // $(".navbar-toggle collapsed").on("click", function(){
+  //   console.log("hamburger is clicked")
+  //   $("#bs-example-navbar-collapse-1").toggle();
+  // });
+
+
   //my account
   $(".my-account").on("click", function(){
     console.log("my acount clicked")
@@ -292,7 +298,7 @@ $(document).ready(function() {
     }
     $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
     $(".title").html("<input type='text' placeholder='New Pin'>");
-    $(".description").html("<input type='text' placeholder='Enter Description Here...'>")
+    $(".description").html("<input class='descrip' type='text' placeholder='What is on the agenda?'>")
     console.log("The window thinks the lat/long is "+pinLat + " " + pinLong)
     $(".saveButton").show()
   }
