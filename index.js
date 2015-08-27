@@ -2,6 +2,8 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var path = require("path");
+var Connection = require("./db/connection");
+var User = Connection.models.User;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -61,9 +63,26 @@ app.get("/auth/twitter/login", passport.authenticate("twitter"));
 app.get("/auth/twitter/callback",
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   function(req, res) {
+    console.log(req.session)
+    console.log(req.session.passport.user.id)
+    console.log("HELLLLLOOOOOOOOOO")
+
+    User.create({
+      twitter_id: req.session.passport.user.id
+    }).then(function(user){
+    });
+
     res.redirect("/");
   }
 );
+
+app.use(function(req, res, callback){
+   if (req.user){
+       res.locals.user = req.user
+      //  set up middleware to talk between the database and your browser
+   }
+   callback();
+})
 
 app.get("/auth/twitter/show", function(req, res){
   res.json(req.session);
@@ -71,7 +90,7 @@ app.get("/auth/twitter/show", function(req, res){
 
 app.get('/signout', function(req, res){
   req.session.destroy()
-  res.redirect("/users")
+  res.redirect("/")
 })
 
 app.get("/", function(req, res){
@@ -81,35 +100,3 @@ app.get("/", function(req, res){
 app.listen(process.env.PORT || 3000, function(){
   console.log("Whee, I'm working!");
 });
-
-
-
-
-
-// var methodOverride = require('method-override')
-// var session = require("express-session")
-// app.use(methodOverride('_method'))
-// app.use(session({
-//   secret: "keyboard cat",
-//   key: "sid",
-//   cookie: { secure:true }
-// }))
-// var TwitterStrategy = require("passport-twitter").Strategy
-
-// passport.use(new TwitterStrategy({
-//   consumerKey: env.twitter.consumerKey,
-//   consumerSecret: env.twitter.consumerSecret,
-//   callbackUrl: env.twitter.callbackUrl
-// }, function(aToken, aTokenSecret, aProfile, done){
-//   console.log("token", aToken)
-//   token = aToken
-//   TokenSecret = aTokenSecret
-//   profile = aProfile
-//   done(null, profile)
-// }))
-//
-// app.get('/auth/twitter', passport.authenticate('twitter'), function(req, res){
-// });
-// // var sessionsController = require("./controllers/sessions")
-
-// // app.use("/", sessionsController);
