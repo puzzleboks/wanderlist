@@ -4,9 +4,9 @@
     <title>Express</title>
 
     <!--Google SignIN -->
-    <meta name="google-signin-scope" content="profile email">
+    <!-- <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="192195838802-qrq0d4an3n2nc0ueb1knn4vhm843n840.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script> -->
     <!--Google SignIN -->
 
     <meta name='viewport' content='width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no' />
@@ -25,7 +25,7 @@
   <body>
     {{{ body }}}
     <!-- <div class="overlay"></div> -->
-    <!-- <div class="help_window"><h2>wanderlist</h2><p>an interactive pinboard where users can share their adventures and desired trips. Please clink on a pin and start doing something...</p></div> --> --> -->
+    <!-- <div class="help_window"><h2>wanderlist</h2><p>an interactive pinboard where users can share their adventures and desired trips. Please clink on a pin and start doing something...</p></div> -->
     <div class="account-information">
       <h2>edit your account</h2>
       <form>
@@ -45,8 +45,8 @@
     </div>
 
 
-    <!-- Google SignIn -->
-    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <!-- Google/Twitter SignIn -->
+    <!-- <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
     <script>
       function onSignIn(googleUser) {
         // Useful data for your client-side scripts:
@@ -63,8 +63,7 @@
     </script>
     <div class="twitterSignIn">
       <img class="twitSign" src="../public/images/sign-in-with-twitter-gray.png" alt="twitterBtn">
-    </div>
-
+    </div> -->
   <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -95,20 +94,25 @@
           <li><button type="button" class="btn btn-default btn-lg" id="redPinBtn">
               <span class="glyphicon glyphicon-pushpin red" aria-hidden="true"></span>
           </li>
+
           <li><button type="button" class="btn btn-default btn-lg" id="helpdesk">
           <span class="icon-question-sign" aria-hidden="true"></span>
             <div class="help-message">Need some help getting started?<br><br> Green pins are for places you've been in the world, and red pins are for all the places you'd like to go.<br><br> Feel free to use the search box to find a city or country of your choosing, or utilize those excellent geography skills by grabbing and dropping the pins at the top of the page!<br><br> Happy wandering.
             </div>
           </li>
+          {{#if user}}
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">my account <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#" class="my-account">edit my account</a></li>
+              <li><a href="#" class="help">help</a></li>
+              <li><a href="/signout" class="sign-out">sign out</a></li>
               <li><a href="#" class="sign-out">sign out</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#" class="share-link">share your wanderlist</a></li>
             </ul>
           </li>
+          {{/if}}
         </ul>
       </div>
     </div>
