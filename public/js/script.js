@@ -321,7 +321,7 @@ $(document).ready(function() {
             console.log("delete to pin failed");
           })
         })
-      })
+      }) // pin.show
 
       // $(".title").on("click", function() {
       //   if($(event.target).attr("class") != "editbox"){
