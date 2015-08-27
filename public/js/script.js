@@ -6,6 +6,7 @@ $(document).ready(function() {
   $(".saveButton").hide();
 
   var whichPin;
+  var colorPin;
   var lat     = 13.5333;
   var long    = 2.0833;
 
@@ -177,6 +178,7 @@ $(document).ready(function() {
     });
     redMarker.addTo(map);
     redMarker.on('dragend', ondragend);
+    colorPin = "red";
   });
   $("#greenPinBtn").click(function() {
     console.log("greenclick")
@@ -187,6 +189,7 @@ $(document).ready(function() {
     });
     greenMarker.addTo(map);
     greenMarker.on('dragend', ondragend);
+    colorPin = "green";
   });
 
   // Set the initial marker coordinate on load.
@@ -435,7 +438,12 @@ $(document).ready(function() {
     var title = $(".title").children().eq(0).val()
     var latitude = pinLat;
     var longitude = pinLong;
-    var isRed = true;
+    if(colorPin == "red"){
+      isRed = true;
+    }
+    else {
+      isRed = false;
+    }
     var description = $(".description").children().eq(0).val()
     // console.log(description)
     Pin.whichUser().then(function(userId){
