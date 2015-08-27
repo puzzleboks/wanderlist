@@ -223,6 +223,7 @@ $(document).ready(function() {
   })
 
   $(".leaflet-marker-pane").on("click", function() {
+    var whichPin = $(event.target);
     if($(".popup_bar").css("display") == "none"){
       $(".popup_bar").toggle();
     }
@@ -299,23 +300,18 @@ $(document).ready(function() {
             }
           })
         })
-        $("#pin-delete-button").on("click", function(){
-          var title = $(".title").children().eq(0).val()
-          var latitude = pinLat;
-          var longitude = pinLong;
-          var userId = 1;
-          var isRed = true;
-          var description = $(".description").children().eq(0).val()
+        $(".glyphicon-trash").on("click", function(){
+          console.log("click")
+          console.log(whichPin)
           $.ajax({
             url: "http://localhost:3000/pins/" + pinId,
             type: "DELETE",
-            dataType: "json",
-            data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
+            dataType: "json"
             // success: function(data){
             //   $(this).remove();
             // }
           }).done(function(response){
-
+            whichPin.hide();
             console.log(response);
           }).fail(function(response){
             console.log("delete to pin failed");
