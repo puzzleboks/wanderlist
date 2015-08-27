@@ -24,7 +24,7 @@ $(document).ready(function() {
   map.featureLayer.on('click', function(e) {
       map.panTo(e.layer.getLatLng());
   });
-
+/////////// instructions window //////////
   $("body").click(function(){
     $(".overlay").hide();
     $(".help_window").hide();
@@ -91,10 +91,9 @@ $(document).ready(function() {
     iconAnchor: [4, 25],
   })
 
-  //fetch pins from user defined by session with default of 1 if no session
+  //fetch pins from user 1
 
-  Pin.fetch().then(function(pins){
-    console.log("pins are "+pins)
+  Pin.fetch(1).then(function(pins){
     pins.forEach(function(pin){
       console.log(pin + " " + pin.title + " " + pin.latitude + " " + pin.longitude + " " + pin.id)
       if(pin.isRed == true){
