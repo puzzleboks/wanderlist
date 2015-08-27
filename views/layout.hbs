@@ -24,6 +24,11 @@
 
   </head>
   <body>
+    {{#if user}}
+      <h1>Welcome, {{user.displayName}}</h1>
+    {{/if}}
+    <h1>User Id: {{userId}}</h1>
+
     {{{ body }}}
     <!-- <div class="overlay"></div> -->
     <!-- <div class="help_window"><h2>wanderlist</h2><p>an interactive pinboard where users can share their adventures and desired trips. Please clink on a pin and start doing something...</p></div> -->

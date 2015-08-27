@@ -91,9 +91,10 @@ $(document).ready(function() {
     iconAnchor: [4, 25],
   })
 
-  //fetch pins from user 1
+  //fetch pins from user defined by session with default of 1 if no session
 
-  Pin.fetch(1).then(function(pins){
+  Pin.fetch().then(function(pins){
+    console.log("pins are "+pins)
     pins.forEach(function(pin){
       console.log(pin + " " + pin.title + " " + pin.latitude + " " + pin.longitude + " " + pin.id)
       if(pin.isRed == true){
