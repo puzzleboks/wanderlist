@@ -34,22 +34,6 @@ router.get("/users/:id", function(req, res){
   });
 });
 
-router.get("/users/:id/pins", function(req,res){
-  User.findById(req.params.id).then(function(user){
-    if(!user) return error(res, "user not found");
-    user.getPins().then(function(pins){
-      res.send(pins);
-    })
-  })
-});
-
-router.get("/users/:userId/pins/:id", function(req,res){
-  Pin.findById(req.params.id).then(function(pin){
-    if(!pin) return error(res, "not found");
-    res.json(pin);
-  });
-});
-
 router.patch("/users/:id", function(req, res){
   User.findById(req.params.id).then(function(user){
     if(!user) return error(res, "not found");
