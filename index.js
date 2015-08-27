@@ -2,7 +2,8 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var path = require("path");
-var User = require("./models/user")
+var Connection = require("./db/connection");
+var User = Connection.models.User;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -70,14 +71,6 @@ app.get("/auth/twitter/callback",
       twitter_id: req.session.passport.user.id
     }).then(function(user){
     });
-
-    // User.current_user({isCurrentUser: true})
-    // req.session.passport.user.id = current_user
-    // var user = User.new
-    // var user.id = req.session.passport.user.id
-    // user.name = req.session.passport.user.json.name
-    // user.save
-    // var currentUser = req.session.user.id
 
     res.redirect("/");
   }
