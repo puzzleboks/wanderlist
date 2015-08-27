@@ -71,7 +71,9 @@ app.get("/auth/twitter/callback",
     console.log("req.session.passport.user.id: "+req.session.passport.user.id)
     console.log("------------------------------------------------")
     User.find({
-      "twitter_id": req.session.passport.user.id
+      where: {
+        "twitter_id": req.session.passport.user.id
+      }
     }).then(function(user){
       console.log(user);
       if(!user){
