@@ -76,6 +76,13 @@ app.get("/auth/twitter/callback",
   }
 );
 
+app.use(function(req, res, callback){
+   if (req.user){
+       res.locals.user = req.user
+      //  set up middleware to talk between the database and your browser
+   }
+   callback();
+})
 
 app.get("/auth/twitter/show", function(req, res){
   res.json(req.session);
