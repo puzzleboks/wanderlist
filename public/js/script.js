@@ -243,7 +243,7 @@ $(document).ready(function() {
     if(pinId){
       Pin.show(1, pinId).then(function(response){
         $(".title").html("<span class='clickable_title'>"+response.title+"</span>");
-        $(".description").html("<span class='clickable_description'>"+response.description+"</span>");
+        $(".description").val(response.description);
         // divCreator.html("<div>"+response.title+"</div>")
         // divCreator.html("<div>"+response.description+"</div>")
         $(".clickable_title").one("click", function() {
@@ -446,8 +446,8 @@ $(document).ready(function() {
     else {
       isRed = false;
     }
-    var description = $(".description").children().eq(0).val()
-    // console.log(description)
+    var description = $(".description").val()
+    // console.log($(".description").children())
     Pin.whichUser().then(function(userId){
       $.ajax({
         url: "http://localhost:3000/users/"+userId+"/pins",
