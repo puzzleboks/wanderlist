@@ -1,102 +1,108 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Express</title>
+<head>
+  <title>Express</title>
 
-    <!--Google SignIN -->
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="192195838802-qrq0d4an3n2nc0ueb1knn4vhm843n840.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <!--Google SignIN -->
+  <!--Google SignIN -->
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="192195838802-qrq0d4an3n2nc0ueb1knn4vhm843n840.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!--Google SignIN -->
 
-    <meta name='viewport' content='width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <link rel="stylesheet" href="/public/style.css">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/public/js/models/user.js"></script>
-    <script src="/public/js/script.js"></script>
-    <script src="/public/js/models/pin.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src='https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
-    <link href='https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.css' rel='stylesheet' />
-
-  </head>
-  <body>
-    {{{ body }}}
-    <!-- <div class="overlay"></div> -->
-    <!-- <div class="help_window"><h2>wanderlist</h2><p>an interactive pinboard where users can share their adventures and desired trips. Please clink on a pin and start doing something...</p></div> --> --> -->
-    <div class="account-information">
-      <h2>edit your account</h2>
-      <form>
-        First name:<br>
-        <input type="text" name="firstname">
-        <br>
-        Last name:<br>
-        <input type="text" name="lastname">
-        <br>
-        email address:<br>
-        <input type="text" name="email">
-        <br>
-        <input type="button" value="submit changes" name="submit" id="edit-button">
-        <input type="button" value="exit" name="submit" id="exit-button">
-        <br>
-      </form>
-    </div>
+  <meta name='viewport' content='width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/public/js/models/user.js"></script>
+  <script src="/public/js/script.js"></script>
+  <script src="/public/js/models/pin.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src='https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.css' rel='stylesheet' />
+  <link rel="stylesheet" href="/public/style.css">
 
 
-    <!-- Google SignIn -->
-    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-    <script>
-      function onSignIn(googleUser) {
-        // Useful data for your client-side scripts:
-        var profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log("Name: " + profile.getName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
+</head>
+<body>
+  {{{ body }}}
+  <!-- <div class="overlay"></div> -->
+  <!-- <div class="help_window"><h2>wanderlist</h2><p>an interactive pinboard where users can share their adventures and desired trips. Please clink on a pin and start doing something...</p></div> --> --> -->
+  <div class="account-information">
+    <h2>edit your account</h2>
+    <form>
+      First name:<br>
+      <input type="text" name="firstname">
+      <br>
+      Last name:<br>
+      <input type="text" name="lastname">
+      <br>
+      email address:<br>
+      <input type="text" name="email">
+      <br>
+      <input type="button" value="submit changes" name="submit" id="edit-button">
+      <input type="button" value="exit" name="submit" id="exit-button">
+      <br>
+    </form>
+  </div>
 
-        // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
-      };
-    </script>
-    <div class="twitterSignIn">
-      <img class="twitSign" src="../public/images/sign-in-with-twitter-gray.png" alt="twitterBtn">
-    </div>
+
+  <!-- Google SignIn -->
+  <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+  <script>
+  function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+    console.log("Name: " + profile.getName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail());
+
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+  };
+  </script>
+  <div class="twitterSignIn">
+    <img class="twitSign" src="../public/images/sign-in-with-twitter-gray.png" alt="twitterBtn">
+  </div>
 
   <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">wanderlist</a>
-    </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active">
-          <a href="#">sign up <span class="sr-only">(current)</span></a></li>
-        <li><a href="/auth/twitter/login">log in </a></li>
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="destination">
-        </div>
-        <button type="submit" class="btn btn-default" style="color:green">search</button>
-      </form>
-      </ul>
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">wanderlist</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active">
+            <a href="#">sign up <span class="sr-only">(current)</span></a>
+          </li>
+          <li>
+            <a href="/auth/twitter/login">log in </a>
+          </li>
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="destination">
+            </div>
+            <button type="submit" class="btn btn-default" style="color:green">search</button>
+          </form>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><button type="button" class="btn btn-default btn-lg" id="greenPinBtn">
-              <span class="glyphicon glyphicon-pushpin green" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-pushpin green" aria-hidden="true"></span>
           </li>
           <li><button type="button" class="btn btn-default btn-lg" id="redPinBtn">
-              <span class="glyphicon glyphicon-pushpin red" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-pushpin red" aria-hidden="true"></span>
           </li>
           <li><button type="button" class="btn btn-default btn-lg" id="helpdesk">
-          <span class="icon-question-sign" aria-hidden="true"></span>
+            <span class="icon-question-sign" aria-hidden="true"></span>
             <div class="help-message">Need some help getting started?<br><br> Green pins are for places you've been in the world, and red pins are for all the places you'd like to go.<br><br> Feel free to use the search box to find a city or country of your choosing, or utilize those excellent geography skills by grabbing and dropping the pins at the top of the page!<br><br> Happy wandering.
             </div>
           </li>
@@ -110,8 +116,8 @@
             </ul>
           </li>
         </ul>
-      </div>
-    </div>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
   </nav>
-  </body>
+</body>
 </html>
