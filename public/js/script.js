@@ -5,7 +5,7 @@ $(document).ready(function() {
   $(".previous_arrow").hide()
   $(".saveButton").hide();
 
-
+  var whichPin;
   var lat     = 13.5333;
   var long    = 2.0833;
 
@@ -223,7 +223,8 @@ $(document).ready(function() {
   })
 
   $(".leaflet-marker-pane").on("click", function() {
-    var whichPin = $(event.target);
+    whichPin = $(event.target);
+    console.log(whichPin)
     if($(".popup_bar").css("display") == "none"){
       $(".popup_bar").toggle();
     }
@@ -375,7 +376,7 @@ $(document).ready(function() {
           $(".next_arrow").hide()
           $(".previous_arrow").hide()
 
-          $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+          $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
         }
         else {
           $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
@@ -388,7 +389,7 @@ $(document).ready(function() {
             }
             else {
               $(".next_arrow").hide()
-              $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+              $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
             }
           })
           $(".previous_arrow").on("click", function() {
@@ -402,7 +403,7 @@ $(document).ready(function() {
             }
             else {
               $(".previous_arrow").hide()
-              $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+              $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
             }
 
           })
@@ -421,7 +422,7 @@ $(document).ready(function() {
     if($(".popup_bar").css("display") == "none"){
       $(".popup_bar").toggle();
     }
-    $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' value='Enter Photo URL' class='changeUrl'></div>'")
+    $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
     $(".title").html("<input type='text' placeholder='New Pin'>");
     $(".description").html("<input class='descrip' type='text' placeholder='What is on the agenda?'>")
     console.log("The window thinks the lat/long is "+pinLat + " " + pinLong)
@@ -429,7 +430,6 @@ $(document).ready(function() {
   }
   $(".saveButton").on("click", function() {
     var title = $(".title").children().eq(0).val()
-    // console.log(title)
     var latitude = pinLat;
     var longitude = pinLong;
     var isRed = true;
@@ -442,13 +442,18 @@ $(document).ready(function() {
         dataType: "json",
         data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
       }).done(function(response){
+        $(".saveButton").hide;
+        $(".title").html(response.title);
+        $(".description").html(response.description);
+        var pinId = response.id;
         var pict = $(".changeUrl").val();
-        console.log(pict)
         $.ajax({
           url: "/pins/" + pinId + "/photos",
           type: "POST",
           dataType: "json",
-          data: {"photoUrl": pict}
+          data: {"photoUrl": pict, "pinId": pinId}
+        }).done(function(response){
+          $(".photos").html("<img src='"+ response.photoUrl+"' >")
         })
         //console.log(pict);
       }).fail(function(response){
