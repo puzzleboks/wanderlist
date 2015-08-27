@@ -7,20 +7,33 @@ var Pin = function(info){
   this.isRed = info.isRed;
   this.description = info.description;
 };
-
 Pin.fetch = function(userId){
-  var request = $.getJSON("http://localhost:3000/users/"+userId+"/pins/")
-  .then(function(response) {
-    var pins = [];
-    for(var i = 0; i < response.length; i++){
-      pins.push(new Pin(response[i]));
+  var request = $.getJSON("http://localhost:3000/auth/twitter/show")
+  .then(function(response){
+    if(response.userId){
+      var userId = response.userId
     }
-    return pins;
+    else {
+      var userId = 1;
+    }
+    return userId;
+  }).then(function(userId){
+    var request = $.getJSON("http://localhost:3000/users/"+userId+"/pins/")
+    .then(function(response) {
+      var pins = [];
+      for(var i = 0; i < response.length; i++){
+        pins.push(new Pin(response[i]));
+      }
+      console.log("pins in second json are "+pins)
+      return pins;
+    })
+    .fail(function(response){
+      console.log("failed to fetch pins from user with id: "+userId);
+    });
+    return request;
   })
-  .fail(function(response){
-    console.log("failed to fetch pins from user with id: "+userId);
-  });
   return request;
+  console.log(pins)
 }
 Pin.show = function(userId, pinId){
   var request = $.getJSON("http://localhost:3000/users/"+userId+"/pins/"+pinId)

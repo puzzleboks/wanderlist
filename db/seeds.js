@@ -2,7 +2,7 @@ var DB = require("./connection");
 
 var bcrypt = require('bcryptjs');
 
-DB.models.User.create({username: "testuser", password_digest: bcrypt.hashSync('password', 8)})
+DB.models.User.create({twitter_id: 0})
 .done(function(){DB.models.Pin.create({title: "London, UK", latitude: 51.5072, longitude: -0.1275, userId: 1, isRed: true, description: "This was my wondeful trip to the UK. It was amazing in every way. The end."})
 .done(function(){DB.models.Photo.create({photoUrl: "https://d185ox70mr1pkc.cloudfront.net/post_image/london.jpg", pinId: 1})
 .done(function(){DB.models.Photo.create({photoUrl: "http://www.fillmurray.com/570/400", pinId: 1})
