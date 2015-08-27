@@ -295,10 +295,30 @@ $(document).ready(function() {
                 console.log($(".editbox"))
                 $(self).attr("class", "clickable_word");
                 $(self).html("<span class='clickable_word'>"+edited_value+"</span>")
-
               })
-
             }
+          })
+        })
+        $("#pin-delete-button").on("click", function(){
+          var title = $(".title").children().eq(0).val()
+          var latitude = pinLat;
+          var longitude = pinLong;
+          var userId = 1;
+          var isRed = true;
+          var description = $(".description").children().eq(0).val()
+          $.ajax({
+            url: "http://localhost:3000/pins/" + pinId,
+            type: "DELETE",
+            dataType: "json",
+            data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
+            // success: function(data){
+            //   $(this).remove();
+            // }
+          }).done(function(response){
+
+            console.log(response);
+          }).fail(function(response){
+            console.log("delete to pin failed");
           })
         })
       })

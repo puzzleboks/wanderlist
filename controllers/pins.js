@@ -53,7 +53,7 @@ router.patch("/pins/:id", function(req, res){
   });
 });
 
-router.delete("users/:userId/pins/:id", function(req, res){
+router.delete("/pins/:id", function(req, res){
   Pin.findById(req.params.id).then(function(pin){
     if(!pin) return error(res, "not found");
     pin.destroy().then(function(){
