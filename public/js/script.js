@@ -317,7 +317,7 @@ $(document).ready(function() {
             console.log("delete to pin failed");
           })
         })
-      })
+      }) // pin.show
 
       // $(".title").on("click", function() {
       //   if($(event.target).attr("class") != "editbox"){
@@ -429,12 +429,12 @@ $(document).ready(function() {
   }
   $(".saveButton").on("click", function() {
     var title = $(".title").children().eq(0).val()
-    console.log(title)
+    // console.log(title)
     var latitude = pinLat;
     var longitude = pinLong;
     var isRed = true;
     var description = $(".description").children().eq(0).val()
-    console.log(description)
+    // console.log(description)
     Pin.whichUser().then(function(userId){
       $.ajax({
         url: "http://localhost:3000/users/"+userId+"/pins",
@@ -442,7 +442,15 @@ $(document).ready(function() {
         dataType: "json",
         data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
       }).done(function(response){
-        console.log(response);
+        var pict = $(".changeUrl").val();
+        console.log(pict)
+        $.ajax({
+          url: "/pins/" + pinId + "/photos",
+          type: "POST",
+          dataType: "json",
+          data: {"photoUrl": pict}
+        })
+        //console.log(pict);
       }).fail(function(response){
         console.log("post to pin failed");
       })
