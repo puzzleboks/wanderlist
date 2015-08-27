@@ -241,7 +241,7 @@ $(document).ready(function() {
     var photoUrls = []
     var whichPhotoCounter = 0;
     if(pinId){
-      Pin.show(1, pinId).then(function(response){
+      Pin.show(pinId).then(function(response){
         $(".title").html("<span class='clickable_title'>"+response.title+"</span>");
         $(".description").html("<span class='clickable_description'>"+response.description+"</span>");
         // divCreator.html("<div>"+response.title+"</div>")
@@ -372,12 +372,8 @@ $(document).ready(function() {
       // })
 
       Pin.getPhotos(pinId).then(function(response){
-        for(var i = 0; i < response.length; i++){
-          photoUrls.push(response[i].photoUrl);
-        }
-      })
-      .then(function(response){
-        if (photoUrls.length == 0) {
+        console.log(response)
+        if (response.length == 0) {
           $(".next_arrow").hide()
           $(".previous_arrow").hide()
 
@@ -385,13 +381,24 @@ $(document).ready(function() {
         }
         else {
           $(".deletePhotoButton").show();
-          $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+          $(".deletePhotoButton").on("click", function() {
+
+            $.ajax({
+              url: "/pins/" + pinId + "/photos/" + photoId,
+              type: "DELETE",
+              dataType: "json",
+            }).done(function(response){
+              // placeholder $(".photos").html("<img src='"+ response.photoUrl +"' >")
+            })
+          });
+
+          $(".photos").html("<img src="+response[whichPhotoCounter].photoUrl+">")
           $(".next_arrow").show()
           $(".next_arrow").on("click", function(){
             $(".previous_arrow").show()
             whichPhotoCounter++;
-            if(photoUrls[whichPhotoCounter]){
-              $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+            if(response[whichPhotoCounter]){
+              $(".photos").html("<img src="+response[whichPhotoCounter].photoUrl+">")
             }
             else {
               $(".next_arrow").hide()
@@ -404,8 +411,8 @@ $(document).ready(function() {
             if(whichPhotoCounter == 0){
               $(".previous_arrow").hide()
             }
-            if(photoUrls[whichPhotoCounter]){
-              $(".photos").html("<img src="+photoUrls[whichPhotoCounter]+">")
+            if(response[whichPhotoCounter]){
+              $(".photos").html("<img src="+response[whichPhotoCounter].photoUrl+">")
             }
             else {
               $(".previous_arrow").hide()
@@ -476,14 +483,4 @@ $(document).ready(function() {
       })
     })
   })
-  $(".deletePhotoButton").on("click", function() {
-    $.ajax({
-      url: "/pins/" + pinId + "/photos/" + photoId,
-      type: "DELETE",
-      dataType: "json",
-      data: {"photoUrl": pict, "pinId": pinId}
-    }).done(function(response){
-      // placeholder $(".photos").html("<img src='"+ response.photoUrl +"' >")
-    })
-  });
 })
