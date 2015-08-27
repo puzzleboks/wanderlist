@@ -24,7 +24,8 @@ $(document).ready(function() {
   map.featureLayer.on('click', function(e) {
       map.panTo(e.layer.getLatLng());
   });
-/////////// instructions window //////////
+
+/////////// instruction window //////////
   $("body").click(function(){
     $(".overlay").hide();
     $(".help_window").hide();
@@ -435,21 +436,19 @@ $(document).ready(function() {
     console.log(title)
     var latitude = pinLat;
     var longitude = pinLong;
+    var userId = 1;
     var isRed = true;
     var description = $(".description").children().eq(0).val()
     console.log(description)
-    Pin.whichUser().then(function(userId){
-      $.ajax({
-        url: "http://localhost:3000/users/"+userId+"/pins",
-        type: "POST",
-        dataType: "json",
-        data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
-      }).done(function(response){
-        console.log(response);
-      }).fail(function(response){
-        console.log("post to pin failed");
-      })
+    $.ajax({
+      url: "http://localhost:3000/users/1/pins",
+      type: "POST",
+      dataType: "json",
+      data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
+    }).done(function(response){
+      console.log(response);
+    }).fail(function(response){
+      console.log("post to pin failed");
     })
-
   })
 })
