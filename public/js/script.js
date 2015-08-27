@@ -313,6 +313,7 @@ $(document).ready(function() {
             // }
           }).done(function(response){
             whichPin.hide();
+            $(".popup_bar").hide();
             console.log(response);
           }).fail(function(response){
             console.log("delete to pin failed");
@@ -419,6 +420,7 @@ $(document).ready(function() {
 
   })
   function newPinWindow() {
+    whichPin = $(event.target)
     if($(".popup_bar").css("display") == "none"){
       $(".popup_bar").toggle();
     }
@@ -429,6 +431,7 @@ $(document).ready(function() {
     $(".saveButton").show()
   }
   $(".saveButton").on("click", function() {
+    console.log(whichPin)
     var title = $(".title").children().eq(0).val()
     var latitude = pinLat;
     var longitude = pinLong;
@@ -442,6 +445,7 @@ $(document).ready(function() {
         dataType: "json",
         data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
       }).done(function(response){
+        whichPin[0].title = response.title + " id" + response.id
         $(".saveButton").hide;
         $(".title").html(response.title);
         $(".description").html(response.description);
