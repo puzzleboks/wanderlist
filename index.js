@@ -4,6 +4,7 @@ var bodyParser = require("body-parser");
 var path = require("path");
 var Connection = require("./db/connection");
 var User = Connection.models.User;
+var userId;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -63,14 +64,29 @@ app.get("/auth/twitter/login", passport.authenticate("twitter"));
 app.get("/auth/twitter/callback",
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   function(req, res) {
-    console.log(req.session)
-    console.log(req.session.passport.user.id)
-    console.log("HELLLLLOOOOOOOOOO")
-
-    User.create({
-      twitter_id: req.session.passport.user.id
+    // console.log(req.session)
+    // console.log(req.session.passport.user.id)
+    // console.log("HELLLLLOOOOOOOOOO")
+    console.log("------------------------------------------------")
+    console.log("req.session.passport.user.id: "+req.session.passport.user.id)
+    console.log("------------------------------------------------")
+    User.find({
+      "twitter_id": req.session.passport.user.id
     }).then(function(user){
-    });
+      console.log(user);
+      if(!user){
+        User.create({
+          twitter_id: req.session.passport.user.id
+        }).then(function(user){
+          return user;
+        });
+      }
+      else {
+        console.log("user already exists")
+        userId = user.id
+        return user;
+      }
+    })
 
     res.redirect("/");
   }
@@ -85,16 +101,20 @@ app.use(function(req, res, callback){
 })
 
 app.get("/auth/twitter/show", function(req, res){
+  if(userId){
+    req.session["userId"] = userId;
+  }
   res.json(req.session);
 });
 
 app.get('/signout', function(req, res){
   req.session.destroy()
+  userId = null;
   res.redirect("/")
 })
 
 app.get("/", function(req, res){
-  res.render("index", {})
+  res.render("index", {userId: userId})
 });
 
 app.listen(process.env.PORT || 3000, function(){
