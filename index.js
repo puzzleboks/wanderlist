@@ -80,6 +80,7 @@ app.get("/auth/twitter/callback",
         User.create({
           twitter_id: req.session.passport.user.id
         }).then(function(user){
+          userId = user.id
           return user;
         });
       }
