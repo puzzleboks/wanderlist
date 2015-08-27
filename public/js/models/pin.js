@@ -7,6 +7,19 @@ var Pin = function(info){
   this.isRed = info.isRed;
   this.description = info.description;
 };
+Pin.whichUser = function(){
+  var request = $.getJSON("http://localhost:3000/auth/twitter/show")
+  .then(function(response){
+    if(response.userId){
+      var userId = response.userId
+    }
+    else {
+      var userId = 1;
+    }
+    return userId;
+  })
+  return request
+}
 Pin.fetch = function(userId){
   var request = $.getJSON("http://localhost:3000/auth/twitter/show")
   .then(function(response){
