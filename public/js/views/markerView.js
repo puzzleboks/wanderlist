@@ -1,7 +1,7 @@
 //this page renders the markers to be sent to mapview render marker
 
 
-var PinView = function(pin){
+var MarkerView = function(pin){
   //define pin images
   var redPin = L.icon({
     iconUrl: '../public/images/PinDown1.png',
@@ -35,7 +35,7 @@ var PinView = function(pin){
   }
 }
 
-PinView.prototype = {
+MarkerView.prototype = {
   render: function() {
 
   }

@@ -30,7 +30,7 @@ Pin.whichUser().then(function(userId){
 
   Pin.fetch().then(function(pins){
     pins.forEach(function(pin){
-      var marker = new PinView(pin);
+      var marker = new MarkerView(pin);
       WorldMap.renderMarker(marker)
       // WorldMap.renderMarker(view.marker)
     })
@@ -52,7 +52,7 @@ Pin.whichUser().then(function(userId){
           "latitude": lat,
           "longitude": long,
         })
-        var marker = new PinView(pin);
+        var marker = new MarkerView(pin);
         WorldMap.renderMarker(marker)
       }).fail(function(response){
         console.log("failed to load coordinates from search");
@@ -64,19 +64,19 @@ Pin.whichUser().then(function(userId){
 
   $("#redPinBtn").click(function(){
     var pin = new Pin({})
-    var marker = new PinView(pin);
+    var marker = new MarkerView(pin);
     WorldMap.renderMarker(marker)
   });
   $("#greenPinBtn").click(function() {
     var pin = new Pin({"isRed": "false"})
-    var marker = new PinView(pin);
+    var marker = new MarkerView(pin);
     WorldMap.renderMarker(marker)
   });
 
   $(".leaflet-marker-pane").on("click", function() {
     var photoUrls = []
     var whichPhotoCounter = 0;
-    if(pinId){        
+    if(pinId){
       Pin.getPhotos(pinId).then(function(response){
         console.log(response)
         if (response.length == 0) {
