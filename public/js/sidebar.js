@@ -4,15 +4,14 @@ $(document).ready(function(){
   function savePinAndHide() {
     var data = {}
     var checkId = $("#pinId").html()
-    data["notes"] = $(".editbox").val();
-    if($(".editTitle").val()){
-      data["titleValue"] = $(".editTitle").val();
-    }
+    var notes = $(".editbox").val();
     $.ajax({
       url: "http://localhost:3000/pins/"+checkId,
       type: "PATCH",
       dataType: "json",
-      data: data
+      data: {"description": notes}
+    }).done(function(response){
+      console.log(response)
     })
     $(".popup_bar").hide();
     console.log("map clicked, pin saved, bar hid. Pin: "+checkId)
@@ -111,6 +110,9 @@ $(document).ready(function(){
           $(".popup_bar").hide();
         })
       })
+    }
+    else if(pinId == "undefined"){
+      console.log("new pin!")
     }
   })
 })
