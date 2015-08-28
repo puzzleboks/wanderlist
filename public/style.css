@@ -50,7 +50,7 @@ html, body{
   z-index: 11;
 }
 
-.help_window h2 {
+.help_window h4 {
   color: #232323;
   text-transform: uppercase;
   font: 35px/1.5 Helvetica, Verdana, sans-serif;
@@ -68,15 +68,26 @@ html, body{
   overflow: hidden;
   width: 300px;
   height: 215px;
-  margin-top: 100px;
-  margin-left: -500px;
+  margin-top: 150px;
+  margin-left: -828px;
   background-color: white;
   border-radius: 5px;
   text-align:justify;
   color: #232323;
   font: 15px/1.5 Helvetica, Verdana, sans-serif;
-  font-weight: bold;
   text-align: center;
+}
+
+.help_message h6 {
+  color: #232323;
+  text-transform: uppercase;
+  font: 35px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+.help_message p {
+  color: #444;
+  text-align: left;
+  font: 13px/1.8 Georgia, Times, sans-serif;
 }
 
 .account-information{
