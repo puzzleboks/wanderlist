@@ -1,4 +1,8 @@
+//this page renders the markers to be sent to mapview render marker
+
+
 var PinView = function(pin){
+  //define pin images
   var redPin = L.icon({
     iconUrl: '../public/images/PinDown1.png',
     iconSize: [22, 27],
@@ -9,7 +13,9 @@ var PinView = function(pin){
     iconSize: [22, 27],
     iconAnchor: [4, 25],
   })
+
   this.pin = pin;
+
   console.log(pin)
   if(pin.isRed == true){
     this.marker = L.marker([pin.latitude, pin.longitude], {

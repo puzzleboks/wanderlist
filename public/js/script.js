@@ -1,4 +1,5 @@
 $(document).ready(function() {
+//define current_user variable through ajax
 Pin.whichUser().then(function(userId){
   current_user = userId;
 })
@@ -17,18 +18,13 @@ Pin.whichUser().then(function(userId){
   var pinLat = 13.5333;
   var pinLong = 2.0833;
 
+  //load map
   var WorldMap = new MapView();
-  // var map = MapView.map;
-
 
   $("body").click(function(){
     $(".overlay").hide();
     $(".help_window").hide();
   });
-
-
-  // red and green pin variables
-
 
   //fetch pins from user defined by session with default of 1 if no session
 
@@ -53,13 +49,8 @@ Pin.whichUser().then(function(userId){
         var lat = search_location[1];
         var long = search_location[0];
         var pin = new Pin({
-          "id": null,
-          "title": null,
           "latitude": lat,
           "longitude": long,
-          "userId": current_user,
-          "isRed": true,
-          "description": "Start Your Adventure Here..."
         })
         var marker = new PinView(pin);
         WorldMap.renderMarker(marker)
@@ -70,76 +61,17 @@ Pin.whichUser().then(function(userId){
       newPinWindow()
     }
   })
-  // users/1/pins gets a json list of that user's pins
-
-  var myIcon = L.icon({
-    iconUrl: '../public/images/PinDown1.png',
-    // iconRetinaUrl: 'my-icon@2x.png',
-    iconSize: [22, 27],
-    iconAnchor: [4, 25],
-    // popupAnchor: [-3, -76],
-    // shadowUrl: 'my-icon-shadow.png',
-    // shadowRetinaUrl: 'my-icon-shadow@2x.png',
-    // shadowSize: [68, 95],
-    // shadowAnchor: [22, 94]
-  });
-
-  // add green and red pin drop and drag
-
-  var redMarker;
-
-  // redMarker.on('click', function () {
-  //   redMarker.bounce({duration: 500, height: 100});
-  // });
-
-  var greenMarker;
 
   $("#redPinBtn").click(function(){
-    console.log("click")
-    redMarker = L.marker([13.5333, 2.0833], {
-      icon: redPin,
-      draggable: true,
-      clickable: true,
-    });
-    redMarker.addTo(map);
-    redMarker.on('dragend', ondragend);
-    colorPin = "red";
+    var pin = new Pin({})
+    var marker = new PinView(pin);
+    WorldMap.renderMarker(marker)
   });
   $("#greenPinBtn").click(function() {
-    console.log("greenclick")
-    greenMarker = L.marker([13.5333, 2.0833], {
-      icon: greenPin,
-      draggable: true,
-      clickable: true,
-    });
-    greenMarker.addTo(map);
-    greenMarker.on('dragend', ondragend);
-    colorPin = "green";
+    var pin = new Pin({"isRed": "false"})
+    var marker = new PinView(pin);
+    WorldMap.renderMarker(marker)
   });
-
-  // Set the initial marker coordinate on load.
-  function ondragend() {
-    if(redMarker){
-      var rm = redMarker.getLatLng();
-      console.log(rm.lat);
-      console.log(rm.lng);
-      pinLat = rm.lat;
-      console.log("pinLat is currently "+pinLat)
-      pinLong = rm.lng;
-    }
-    if(greenMarker){
-      var gm = greenMarker.getLatLng();
-      console.log(gm.lat);
-      console.log(gm.lng);
-      pinLat = gm.lat;
-      pinLong = gm.lng;
-    }
-
-    //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
-  }
-
-  // every time the marker is dragged, update the coordinates container
-
 
   // add and remove sidebar on pin click
 
