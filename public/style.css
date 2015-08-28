@@ -16,6 +16,9 @@ html, body{
   min-height: 100%;
 }
 
+.hiddenInfo {
+  display: none;
+}
 
 .map_container {
   position: relative;
