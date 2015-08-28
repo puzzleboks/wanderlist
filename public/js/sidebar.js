@@ -49,7 +49,9 @@ $(document).ready(function(){
           $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
         }
         else {
-          new PhotoView(pinId, photos[whichPhoto]);
+          if(photos[whichPhoto]){
+            new PhotoView(pinId, photos[whichPhoto]);
+          }
           $(".next_arrow").on("click", function(){
             whichPhoto++;
             if(!photos[whichPhoto]){
