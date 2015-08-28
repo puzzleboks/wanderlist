@@ -1,12 +1,14 @@
 var Pin = function(info){
-  this.id = info.id
+  this.id = info.id;
   this.title = info.title;
-  this.latitude = info.latitude;
-  this.longitude = info.longitude;
-  this.userId = info.userId;
-  this.isRed = info.isRed;
-  this.description = info.description;
+  this.latitude = info.latitude || 13.5333;
+  this.longitude = info.longitude || 2.0833;
+  this.userId = info.userId || current_user;
+  this.isRed = info.isRed || "t";
+  this.description = info.description || "What is on the agenda...";
 };
+
+
 Pin.whichUser = function(){
   var request = $.getJSON("http://localhost:3000/auth/twitter/show")
   .then(function(response){
@@ -37,7 +39,6 @@ Pin.fetch = function(userId){
       for(var i = 0; i < response.length; i++){
         pins.push(new Pin(response[i]));
       }
-      console.log("pins in second json are "+pins)
       return pins;
     })
     .fail(function(response){
@@ -46,7 +47,6 @@ Pin.fetch = function(userId){
     return request;
   })
   return request;
-  console.log(pins)
 }
 Pin.show = function(pinId){
   var request = $.getJSON("http://localhost:3000/pins/"+pinId)
@@ -60,6 +60,7 @@ Pin.show = function(pinId){
 Pin.getPhotos = function(pinId){
   var request = $.getJSON("http://localhost:3000/pins/"+pinId+"/photos/")
   .then(function(response) {
+    console.log(response)
     return response
   }).fail(function(response){
     console.log("failed to fetch photos from pin with id: "+pinId);
