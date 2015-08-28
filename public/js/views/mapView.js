@@ -12,5 +12,10 @@ MapView.prototype = {
     var self = this;
     console.log(marker)
     marker.marker.addTo(self.map)
+    marker.marker.on('dragend', function(){
+      var temp = marker.marker.getLatLng();
+      console.log(temp.lat);
+      console.log(temp.lng);
+    });
   }
 }

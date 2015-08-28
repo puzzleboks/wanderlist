@@ -23,13 +23,14 @@ var PinView = function(pin){
     this.marker = L.marker([pin.latitude, pin.longitude], {
       icon: greenPin,
       clickable: true,
+      draggable: true,
       title: pin.title + " id" + pin.id
     })
   }
-
 }
 
 PinView.prototype = {
   render: function() {
+
   }
 }

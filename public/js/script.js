@@ -1,4 +1,8 @@
 $(document).ready(function() {
+Pin.whichUser().then(function(userId){
+  current_user = userId;
+})
+
 
   $(".popup_bar").hide();
   $(".next_arrow").hide()
@@ -15,6 +19,7 @@ $(document).ready(function() {
 
   var WorldMap = new MapView();
   // var map = MapView.map;
+
 
   $("body").click(function(){
     $(".overlay").hide();
@@ -44,21 +49,20 @@ $(document).ready(function() {
       console.log("user_search is "+user_search)
       var request = $.getJSON("https://api.mapbox.com/v4/geocode/mapbox.places/"+user_search+".json?access_token=pk.eyJ1IjoiYWxleGJhbm5vbiIsImEiOiIzM2I3MWU4NjhlNjc5ODYzN2NjMWFhYzU4OWIzOGYzYiJ9.zVY-I01f5Pie1XCaA0Laog")
       .then(function(response){
-        console.log(response)
         var search_location = response.features[0].geometry.coordinates
-        console.log(search_location)
         var lat = search_location[1];
-        pinLat = lat;
         var long = search_location[0];
-        pinLong = long;
-        redMarker = L.marker([lat, long], {
-          icon: redPin,
-          draggable: true,
-          clickable: true,
+        var pin = new Pin({
+          "id": null,
+          "title": null,
+          "latitude": lat,
+          "longitude": long,
+          "userId": current_user,
+          "isRed": true,
+          "description": "Start Your Adventure Here..."
         })
-        redMarker.addTo(map)
-        redMarker.on('dragend', ondragend);
-        whichPin = redMarker;
+        var marker = new PinView(pin);
+        WorldMap.renderMarker(marker)
       }).fail(function(response){
         console.log("failed to load coordinates from search");
       })
