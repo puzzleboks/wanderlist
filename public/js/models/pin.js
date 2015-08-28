@@ -37,7 +37,6 @@ Pin.fetch = function(userId){
       for(var i = 0; i < response.length; i++){
         pins.push(new Pin(response[i]));
       }
-      console.log("pins in second json are "+pins)
       return pins;
     })
     .fail(function(response){
@@ -46,7 +45,6 @@ Pin.fetch = function(userId){
     return request;
   })
   return request;
-  console.log(pins)
 }
 Pin.show = function(pinId){
   var request = $.getJSON("http://localhost:3000/pins/"+pinId)

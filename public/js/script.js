@@ -10,112 +10,28 @@ $(document).ready(function() {
   var pinId;
   var whichPin;
   var colorPin;
-  var lat     = 13.5333;
-  var long    = 2.0833;
-
   var pinLat = 13.5333;
   var pinLong = 2.0833;
 
-  $(".dropdown-toggle").on("click", function() {
-    console.log("click");
-  })
-
-  L.mapbox.accessToken = 'pk.eyJ1IjoiYWxleGJhbm5vbiIsImEiOiIzM2I3MWU4NjhlNjc5ODYzN2NjMWFhYzU4OWIzOGYzYiJ9.zVY-I01f5Pie1XCaA0Laog';
-  // Create a map in the div #map
-  var map = L.mapbox.map('map', 'mapbox.streets').setView([lat, long], 3);
-  map.scrollWheelZoom.disable();
-  //pan to location of current pin clicked - doesn't work yet
-  map.featureLayer.on('click', function(e) {
-      map.panTo(e.layer.getLatLng());
-  });
+  var WorldMap = new MapView();
+  // var map = MapView.map;
 
   $("body").click(function(){
     $(".overlay").hide();
     $(".help_window").hide();
   });
 
-  /////////// nav bar clickdown //////////
-  $(".dropdown-toggle").on("click", function(){
-    console.log("menu bar clicked")
-    $(".dropdown-menu").toggle();
-  });
-
-  // $(".navbar-toggle collapsed").on("click", function(){
-  //   console.log("hamburger is clicked")
-  //   $("#bs-example-navbar-collapse-1").toggle();
-  // });
-
-
-  //my account
-  $(".my-account").on("click", function(){
-    console.log("my acount clicked")
-    $(".account-information").toggle();
-  });
-  //exiting account information
-  $("#exit-button").on("click", function(){
-    console.log("exit button clicked")
-    $(".account-information").toggle();
-  });
-  //editing account information
-  $("#edit-button").on("click", function(){
-    console.log("exit button clicked")
-    $(".account-information").toggle();
-    alert("Your changes have been saved!")
-  });
-
-  //help
-  $("#helpdesk").on("click", function(){
-    console.log("help clicked")
-    $(".help-message").toggle();
-  });
-  // $("#exithelp-button").on("click", function(){
-  //   console.log("exit button clicked")
-  //   $(".help-message").toggle();
-  // });
-  //sign out
-  $(".sign-out").on("click", function(){
-    console.log("sign out clicked")
-  });
-  //share link
-  $(".share-link").on("click", function(){
-    console.log("share clicked")
-    alert("your link is www.wanderlistforever.com/OG")
-  });
 
   // red and green pin variables
 
-  var redPin = L.icon({
-    iconUrl: '../public/images/PinDown1.png',
-    iconSize: [22, 27],
-    iconAnchor: [4, 25],
-  });
-  var greenPin = L.icon({
-    iconUrl: '../public/images/PinDown1Green.png',
-    iconSize: [22, 27],
-    iconAnchor: [4, 25],
-  })
 
   //fetch pins from user defined by session with default of 1 if no session
 
   Pin.fetch().then(function(pins){
-    console.log("pins are "+pins)
     pins.forEach(function(pin){
-      console.log(pin + " " + pin.title + " " + pin.latitude + " " + pin.longitude + " " + pin.id)
-      if(pin.isRed == true){
-        L.marker([pin.latitude, pin.longitude], {
-          icon: redPin,
-          draggable: true,
-          clickable: true,
-          title: pin.title + " id" + pin.id
-        }).addTo(map);
-      }
-      else {
-        L.marker([pin.latitude, pin.longitude], {
-          icon: greenPin,
-          clickable: true,
-          title: pin.title + " id" + pin.id
-        }).addTo(map);
-      }
+      var marker = new PinView(pin);
+      WorldMap.renderMarker(marker)
+      // WorldMap.renderMarker(view.marker)
     })
   })
 
@@ -131,9 +47,9 @@ $(document).ready(function() {
         console.log(response)
         var search_location = response.features[0].geometry.coordinates
         console.log(search_location)
-        lat = search_location[1];
+        var lat = search_location[1];
         pinLat = lat;
-        long = search_location[0];
+        var long = search_location[0];
         pinLong = long;
         redMarker = L.marker([lat, long], {
           icon: redPin,
@@ -176,7 +92,7 @@ $(document).ready(function() {
 
   $("#redPinBtn").click(function(){
     console.log("click")
-    redMarker = L.marker([lat, long], {
+    redMarker = L.marker([13.5333, 2.0833], {
       icon: redPin,
       draggable: true,
       clickable: true,
@@ -187,7 +103,7 @@ $(document).ready(function() {
   });
   $("#greenPinBtn").click(function() {
     console.log("greenclick")
-    greenMarker = L.marker([lat, long], {
+    greenMarker = L.marker([13.5333, 2.0833], {
       icon: greenPin,
       draggable: true,
       clickable: true,
