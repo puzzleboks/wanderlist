@@ -5,6 +5,9 @@ $(document).ready(function(){
     if($(".editTitle").val() == ""){
       return
     }
+    if($(".popup_bar").css("display") == "none"){
+      return
+    }
     var data = {}
     var checkId = $("#pinId").html()
     var notes = $(".editbox").val();
