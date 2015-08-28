@@ -6,6 +6,8 @@ $(document).ready(function() {
   $(".saveButton").hide();
   $(".deletePhotoButton").hide();
 
+  var newPin = false;
+  var pinId;
   var whichPin;
   var colorPin;
   var lat     = 13.5333;
@@ -140,10 +142,12 @@ $(document).ready(function() {
         })
         redMarker.addTo(map)
         redMarker.on('dragend', ondragend);
+        whichPin = redMarker;
       }).fail(function(response){
         console.log("failed to load coordinates from search");
       })
       $(".form-control").val("")
+      newPinWindow()
     }
   })
   // users/1/pins gets a json list of that user's pins
@@ -202,7 +206,6 @@ $(document).ready(function() {
       pinLat = rm.lat;
       console.log("pinLat is currently "+pinLat)
       pinLong = rm.lng;
-      newPinWindow();
     }
     if(greenMarker){
       var gm = greenMarker.getLatLng();
@@ -210,7 +213,6 @@ $(document).ready(function() {
       console.log(gm.lng);
       pinLat = gm.lat;
       pinLong = gm.lng;
-      newPinWindow();
     }
 
     //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
@@ -222,21 +224,40 @@ $(document).ready(function() {
   // add and remove sidebar on pin click
 
   $(".leaflet-tile-pane").on("click", function() {
-    $(".popup_bar").hide();
+    savePinNotesOnSidebarHideOrRemovePin()
     $(".saveButton").hide();
   })
-
+  function savePinNotesOnSidebarHideOrRemovePin() {
+    if(!newPin){
+      var notes = $(".editbox").val();
+      $.ajax({
+        url: "http://localhost:3000/pins/"+pinId,
+        type: "PATCH",
+        dataType: "json",
+        data: {"description": notes}
+      }).done(function(response){
+        $(".popup_bar").hide();
+      })
+    }
+    else {
+      $(whichPin._icon).hide()
+      $(".popup_bar").hide();
+    }
+  }
   $(".leaflet-marker-pane").on("click", function() {
+    newPin = false;
     whichPin = $(event.target);
-    console.log(whichPin)
+    console.log("this is important: "+whichPin)
     if($(".popup_bar").css("display") == "none"){
       $(".popup_bar").toggle();
     }
     else {
+      savePinNotesOnSidebarHideOrRemovePin()
+      $(".popup_bar").toggle();
       console.log("Already showing");
     }
     var temp = event.target.title.split(" id")
-    var pinId = temp[1]
+    pinId = temp[1]
     var pinTitle = temp[0]
     var photoUrls = []
     var whichPhotoCounter = 0;
@@ -256,20 +277,20 @@ $(document).ready(function() {
           $("body").on("click", function(){
             if($(event.target).attr("class") != "editTitle" && $(event.target).attr("class") != "clickable_title" && tempCounter == 0){
                tempCounter++
-               value = $(".editTitle").val()
+               titleValue = $(".editTitle").val()
                console.log("Ajax patch fired");
-               console.log("pinId: "+pinId+ " value: "+value)
-               makeAjaxPatchRequest(pinId, value)
+               console.log("pinId: "+pinId+ " titleValue: "+titleValue)
+               makeAjaxPatchRequest(pinId, titleValue)
               //  makeAjaxPatchRequest(1, pinId, title, value);
             }
           })
         })
-        function makeAjaxPatchRequest(pinId, value){
+        function makeAjaxPatchRequest(pinId, titleValue, descriptionValue){
           $.ajax({
             url: "http://localhost:3000/pins/"+pinId,
             type: "PATCH",
             dataType: "json",
-            data: {"title": value}
+            data: {"title": titleValue, "description": descriptionValue}
           }).done(function(response){
             $(".clickable_title").html(response.title)
             $("body").click(function(event){
@@ -382,7 +403,7 @@ $(document).ready(function() {
         else {
           $(".deletePhotoButton").show();
           $(".deletePhotoButton").on("click", function() {
-
+            photoId = response[whichPhotoCounter].id
             $.ajax({
               url: "/pins/" + pinId + "/photos/" + photoId,
               type: "DELETE",
@@ -432,17 +453,18 @@ $(document).ready(function() {
 
   })
   function newPinWindow() {
-    whichPin = $(event.target)
+    newPin = true;
     if($(".popup_bar").css("display") == "none"){
       $(".popup_bar").toggle();
     }
     $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
     $(".title").html("<input type='text' placeholder='New Pin'>");
-    $(".description").html("<input class='descrip' type='text' placeholder='What is on the agenda?'>")
+    $(".description").val("What is on the agenda?")
     console.log("The window thinks the lat/long is "+pinLat + " " + pinLong)
     $(".saveButton").show()
   }
   $(".saveButton").on("click", function() {
+    newPin = false;
     console.log(whichPin)
     var title = $(".title").children().eq(0).val()
     var latitude = pinLat;
@@ -462,7 +484,9 @@ $(document).ready(function() {
         dataType: "json",
         data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
       }).done(function(response){
-        whichPin[0].title = response.title + " id" + response.id
+        console.log("----------")
+        console.log(whichPin)
+        whichPin.title = response.title + " id" + response.id
         $(".saveButton").hide;
         $(".title").html(response.title);
         $(".description").html(response.description);
