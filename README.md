@@ -26,7 +26,7 @@ WanderList is a single-page application written with Express and Sequelize, util
 
 ### Installation Instructions
 
-In order to install the Special Needs Pets app on your local machine, follow these steps:
+In order to install the WanderList app on your local machine, follow these steps:
 
 * Fork/clone [this repo](https://github.com/alexbannon/wanderlist)
 * Navigate to the wanderlist directory
