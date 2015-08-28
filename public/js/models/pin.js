@@ -4,7 +4,7 @@ var Pin = function(info){
   this.latitude = info.latitude || 13.5333;
   this.longitude = info.longitude || 2.0833;
   this.userId = info.userId || current_user;
-  this.isRed = info.isRed || true;
+  this.isRed = info.isRed || "t";
   this.description = info.description || "What is on the agenda...";
 };
 
@@ -60,7 +60,6 @@ Pin.show = function(pinId){
 Pin.getPhotos = function(pinId){
   var request = $.getJSON("http://localhost:3000/pins/"+pinId+"/photos/")
   .then(function(response) {
-    console.log(request)
     console.log(response)
     return response
   }).fail(function(response){

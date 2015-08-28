@@ -9,12 +9,7 @@ Pin.whichUser().then(function(userId){
   $(".saveButton").hide();
   $(".deletePhotoButton").hide();
 
-  var newPin = false;
   var pinId;
-  var whichPin;
-  var colorPin;
-  var pinLat = 13.5333;
-  var pinLong = 2.0833;
 
   //load map
   var WorldMap = new MapView();
@@ -50,77 +45,75 @@ Pin.whichUser().then(function(userId){
           "latitude": lat,
           "longitude": long,
         })
+        current_latitude = lat;
+        current_longitude = long;
+
         var marker = new MarkerView(pin);
         WorldMap.renderMarker(marker)
       }).fail(function(response){
         console.log("failed to load coordinates from search");
       })
       $(".form-control").val("")
-      newPinWindow()
+      pinIsRed = "t";
     }
   })
 
   $("#redPinBtn").click(function(){
     var pin = new Pin({})
     var marker = new MarkerView(pin);
+    pinIsRed = "t";
     WorldMap.renderMarker(marker)
+    current_latitude = 13.5333;
+    current_longitude = 2.0833;
   });
   $("#greenPinBtn").click(function() {
     var pin = new Pin({"isRed": "false"})
     var marker = new MarkerView(pin);
     WorldMap.renderMarker(marker)
+    pinIsRed = "f";
+    current_latitude = 13.5333;
+    current_longitude = 2.0833;
   });
 
-  function newPinWindow() {
-    newPin = true;
-    if($(".popup_bar").css("display") == "none"){
-      $(".popup_bar").toggle();
-    }
-    $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
-    $(".title").html("<input type='text' placeholder='New Pin'>");
-    $(".description").val("What is on the agenda?")
-    console.log("The window thinks the lat/long is "+pinLat + " " + pinLong)
-    $(".saveButton").show()
-  }
+  // function newPinWindow() {
+  //   $(".popup_bar").show()
+  //   $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
+  //   $(".title").html("<input type='text' placeholder='New Pin'>");
+  //   $(".description").val("What is on the agenda?")
+  //   console.log("The window thinks the lat/long is "+curren_latitude + " " + current_longitude)
+  //   $(".saveButton").show()
+  // }
   $(".saveButton").on("click", function() {
-    newPin = false;
-    console.log(whichPin)
     var title = $(".title").children().eq(0).val()
-    var latitude = pinLat;
-    var longitude = pinLong;
-    if(colorPin == "red"){
-      isRed = true;
-    }
-    else {
-      isRed = false;
-    }
+    var latitude = current_latitude;
+    var longitude = current_longitude;
+    var isRed = pinIsRed;
     var description = $(".description").val()
+    console.log(title + " " + latitude + " " + longitude + " " + isRed + " " + description)
     // console.log($(".description").children())
-    Pin.whichUser().then(function(userId){
+    $.ajax({
+      url: "http://localhost:3000/users/"+current_user+"/pins",
+      type: "POST",
+      dataType: "json",
+      data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": current_user, "isRed": isRed, "description": description}
+    }).done(function(response){
+      console.log(response)
+      console.log("----------")
+      // console.log(whichPin)
+      // whichPin.title = response.title + " id" + response.id
+      $(".saveButton").hide;
+      $(".title").html(response.title);
+      $(".description").html(response.description);
+      whichPin[0].title = response.title + " id"+response.id
+      var pinId = response.id;
+      var pict = $(".changeUrl").val();
       $.ajax({
-        url: "http://localhost:3000/users/"+userId+"/pins",
+        url: "/pins/" + pinId + "/photos",
         type: "POST",
         dataType: "json",
-        data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
+        data: {"photoUrl": pict, "pinId": pinId}
       }).done(function(response){
-        console.log("----------")
-        console.log(whichPin)
-        whichPin.title = response.title + " id" + response.id
-        $(".saveButton").hide;
-        $(".title").html(response.title);
-        $(".description").html(response.description);
-        var pinId = response.id;
-        var pict = $(".changeUrl").val();
-        $.ajax({
-          url: "/pins/" + pinId + "/photos",
-          type: "POST",
-          dataType: "json",
-          data: {"photoUrl": pict, "pinId": pinId}
-        }).done(function(response){
-          $(".photos").html("<img src='"+ response.photoUrl +"' >")
-
-        })
-        //console.log(pict);
+        $(".photos").html("<img src='"+ response.photoUrl +"' >")
       }).fail(function(response){
         console.log("post to pin failed");
       })

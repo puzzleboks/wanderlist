@@ -14,8 +14,8 @@ MapView.prototype = {
     marker.marker.addTo(self.map)
     marker.marker.on('dragend', function(){
       var temp = marker.marker.getLatLng();
-      console.log(temp.lat);
-      console.log(temp.lng);
+      current_latitude = temp.lat;
+      current_longitude = temp.lng;
     });
   }
 }

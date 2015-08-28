@@ -17,12 +17,13 @@ var MarkerView = function(pin){
   this.pin = pin;
 
   console.log(pin)
-  if(pin.isRed == true){
+  if(pin.isRed == "t"){
     this.marker = L.marker([pin.latitude, pin.longitude], {
       icon: redPin,
       draggable: true,
       clickable: true,
-      title: pin.title + " id" + pin.id
+      title: pin.title + " id" + pin.id,
+      longDesc: "[pin.latitude, pin.longitude]"
     })
   }
   else {
@@ -30,9 +31,10 @@ var MarkerView = function(pin){
       icon: greenPin,
       clickable: true,
       draggable: true,
-      title: pin.title + " id" + pin.id
+      title: pin.title + " id" + pin.id,
     })
   }
+
 }
 
 MarkerView.prototype = {

@@ -24,6 +24,9 @@ $(document).ready(function(){
     //parse information built into marker and put in hidden div
     whichPin = $(event.target);
     var temp = event.target.title.split(" id")
+    console.log("look here:")
+    console.log(event.target.title)
+    console.log(this)
     $(".hiddenInfo").html("<span id='pinId'>"+temp[1]+"</span><span id='pinTitle'>"+temp[0]+"</span>")
     pinId = temp[1]
     if(pinId != "undefined"){
@@ -112,7 +115,13 @@ $(document).ready(function(){
       })
     }
     else if(pinId == "undefined"){
+      console.log(whichPin)
       console.log("new pin!")
+      $(".saveButton").show()
+      $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
+      $(".title").html("<input type='text' placeholder='New Pin'>");
+      $(".description").val("What is on the agenda?")
+
     }
   })
 })
