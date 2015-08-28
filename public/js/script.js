@@ -4,12 +4,10 @@ $(document).ready(function() {
   $(".next_arrow").hide()
   $(".previous_arrow").hide()
   $(".saveButton").hide();
-  $(".deletePhotoButton").hide();
 
   var newPin = false;
   var pinId;
   var whichPin;
-  var colorPin;
   var lat     = 13.5333;
   var long    = 2.0833;
 
@@ -29,6 +27,7 @@ $(document).ready(function() {
       map.panTo(e.layer.getLatLng());
   });
 
+/////////// instruction window //////////
   $("body").click(function(){
     $(".overlay").hide();
     $(".help_window").hide();
@@ -95,10 +94,9 @@ $(document).ready(function() {
     iconAnchor: [4, 25],
   })
 
-  //fetch pins from user defined by session with default of 1 if no session
+  //fetch pins from user 1
 
-  Pin.fetch().then(function(pins){
-    console.log("pins are "+pins)
+  Pin.fetch(1).then(function(pins){
     pins.forEach(function(pin){
       console.log(pin + " " + pin.title + " " + pin.latitude + " " + pin.longitude + " " + pin.id)
       if(pin.isRed == true){
@@ -183,7 +181,6 @@ $(document).ready(function() {
     });
     redMarker.addTo(map);
     redMarker.on('dragend', ondragend);
-    colorPin = "red";
   });
   $("#greenPinBtn").click(function() {
     console.log("greenclick")
@@ -194,7 +191,6 @@ $(document).ready(function() {
     });
     greenMarker.addTo(map);
     greenMarker.on('dragend', ondragend);
-    colorPin = "green";
   });
 
   // Set the initial marker coordinate on load.
@@ -338,7 +334,6 @@ $(document).ready(function() {
             // }
           }).done(function(response){
             whichPin.hide();
-            $(".popup_bar").hide();
             console.log(response);
           }).fail(function(response){
             console.log("delete to pin failed");
@@ -498,8 +493,7 @@ $(document).ready(function() {
           dataType: "json",
           data: {"photoUrl": pict, "pinId": pinId}
         }).done(function(response){
-          $(".photos").html("<img src='"+ response.photoUrl +"' >")
-
+          $(".photos").html("<img src='"+ response.photoUrl+"' >")
         })
         //console.log(pict);
       }).fail(function(response){
