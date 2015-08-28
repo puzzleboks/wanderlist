@@ -28,6 +28,50 @@ $(document).ready(function(){
     $(".hiddenInfo").html("<span id='pinId'>"+temp[1]+"</span><span id='pinTitle'>"+temp[0]+"</span>")
     pinId = temp[1]
     if(pinId != "undefined"){
+      whichPhoto = 0;
+      photos = []
+      // fetch photos, store IDs, and show photos
+      Pin.getPhotos(pinId).then(function(response){
+        response.forEach(function(photo){
+          photos.push(photo.id)
+        })
+      }).done(function(response){
+        if (photos.length == 0) {
+          console.log("no photos here")
+          $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
+        }
+        else {
+          new PhotoView(pinId, photos[whichPhoto]);
+          console.log("photo should have rendered");
+
+          $(".next_arrow").on("click", function(){
+            whichPhoto++;
+            if(!photos[whichPhoto]){
+              whichPhoto = 0;
+            }
+            new PhotoView(pinId, photos[whichPhoto]);
+          })
+          $(".previous_arrow").on("click", function(){
+            whichPhoto--;
+            if(!photos[whichPhoto]){
+              whichPhoto = photos.length;
+            }
+            new PhotoView(pinId, photos[whichPhoto]);
+          })
+        }
+
+        // add event listener to delete button
+        $(".deletePhotoButton").on("click", function() {
+          photoId = photos[whichPhoto].id
+          $.ajax({
+            url: "/pins/" + pinId + "/photos/" + photoId,
+            type: "DELETE",
+            dataType: "json",
+          }).done(function(response){
+            // placeholder $(".photos").html("<img src='"+ response.photoUrl +"' >")
+          })
+        })
+      })
 
       //show pin and make title editable
 

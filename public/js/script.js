@@ -6,8 +6,6 @@ Pin.whichUser().then(function(userId){
 
 
   $(".popup_bar").hide();
-  $(".next_arrow").hide()
-  $(".previous_arrow").hide()
   $(".saveButton").hide();
   $(".deletePhotoButton").hide();
 
@@ -73,70 +71,6 @@ Pin.whichUser().then(function(userId){
     WorldMap.renderMarker(marker)
   });
 
-  $(".leaflet-marker-pane").on("click", function() {
-    var photoUrls = []
-    var whichPhotoCounter = 0;
-    if(pinId){
-      Pin.getPhotos(pinId).then(function(response){
-        console.log(response)
-        if (response.length == 0) {
-          $(".next_arrow").hide()
-          $(".previous_arrow").hide()
-
-          $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
-        }
-        else {
-          $(".deletePhotoButton").show();
-          $(".deletePhotoButton").on("click", function() {
-            photoId = response[whichPhotoCounter].id
-            $.ajax({
-              url: "/pins/" + pinId + "/photos/" + photoId,
-              type: "DELETE",
-              dataType: "json",
-            }).done(function(response){
-              // placeholder $(".photos").html("<img src='"+ response.photoUrl +"' >")
-            })
-          });
-
-          $(".photos").html("<img src="+response[whichPhotoCounter].photoUrl+">")
-          $(".next_arrow").show()
-          $(".next_arrow").on("click", function(){
-            $(".previous_arrow").show()
-            whichPhotoCounter++;
-            if(response[whichPhotoCounter]){
-              $(".photos").html("<img src="+response[whichPhotoCounter].photoUrl+">")
-            }
-            else {
-              $(".next_arrow").hide()
-              $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
-            }
-          })
-          $(".previous_arrow").on("click", function() {
-            $(".next_arrow").show()
-            whichPhotoCounter--;
-            if(whichPhotoCounter == 0){
-              $(".previous_arrow").hide()
-            }
-            if(response[whichPhotoCounter]){
-              $(".photos").html("<img src="+response[whichPhotoCounter].photoUrl+">")
-            }
-            else {
-              $(".previous_arrow").hide()
-              $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
-            }
-
-          })
-
-        }
-        // $(".popup_bar").html(divCreator)
-      })
-    }
-    // if a new pin, then do the following////
-    else {
-      newPinWindow();
-    }
-
-  })
   function newPinWindow() {
     newPin = true;
     if($(".popup_bar").css("display") == "none"){
