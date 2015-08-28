@@ -18,4 +18,4 @@ Our method as a team was extremely collaborative from the beginning. Each day as
 5. Basic Express setup
 
 # Implementation
-WanderList is a single-page application written with Express and Sequelize, utilizing Ajax calls to interact with the Mapbox API.
+WanderList is a single-page application written with Express and Sequelize, utilizing Ajax calls to interact with the Mapbox API. The app uses three models: users, pins, and photos. Each user can have many pins, and each pin can have many photos. 
