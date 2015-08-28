@@ -35,7 +35,7 @@ $(document).ready(function() {
     })
   })
 
-  // add search bar functionality to add red pin
+  //  add search bar functionality to add red pin
 
   $(".form-control").on("keypress", function(e){
     if(e.which == 13){
