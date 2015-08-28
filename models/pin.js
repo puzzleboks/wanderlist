@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     latitude: DataTypes.FLOAT,
     longitude: DataTypes.FLOAT,
     userId: DataTypes.INTEGER,
-    isRed: DataTypes.BOOLEAN,
+    isRed: DataTypes.STRING,
     description: DataTypes.TEXT
   })
   return model;
