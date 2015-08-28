@@ -184,8 +184,6 @@ $(document).ready(function() {
     redMarker.addTo(map);
     redMarker.on('dragend', ondragend);
     colorPin = "red";
-    whichPin = redMarker;
-    newPinWindow()
   });
   $("#greenPinBtn").click(function() {
     console.log("greenclick")
@@ -197,8 +195,6 @@ $(document).ready(function() {
     greenMarker.addTo(map);
     greenMarker.on('dragend', ondragend);
     colorPin = "green";
-    whichPin = greenMarker;
-    newPinWindow()
   });
 
   // Set the initial marker coordinate on load.
@@ -210,7 +206,6 @@ $(document).ready(function() {
       pinLat = rm.lat;
       console.log("pinLat is currently "+pinLat)
       pinLong = rm.lng;
-      newPinWindow();
     }
     if(greenMarker){
       var gm = greenMarker.getLatLng();
@@ -218,7 +213,6 @@ $(document).ready(function() {
       console.log(gm.lng);
       pinLat = gm.lat;
       pinLong = gm.lng;
-      newPinWindow();
     }
 
     //coordinates.innerHTML = 'Latitude: ' + m.lat + '<br />Longitude: ' + m.lng;
@@ -490,8 +484,9 @@ $(document).ready(function() {
         dataType: "json",
         data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": userId, "isRed": isRed, "description": description}
       }).done(function(response){
+        console.log("----------")
         console.log(whichPin)
-        whichPin.options.title = response.title + " id" + response.id
+        whichPin.title = response.title + " id" + response.id
         $(".saveButton").hide;
         $(".title").html(response.title);
         $(".description").html(response.description);
