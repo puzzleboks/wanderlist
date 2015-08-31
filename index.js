@@ -11,17 +11,17 @@ var Connection = require("./db/connection");
 var pg = require('pg');
 var fs = require("fs")
 
-// pg.connect(process.env.DATABASE_URL, function(err, client) {
-//   console.log(process.env.DATABASE_URL);
-//   if (err) throw err;
-//   console.log('Connected to postgres! Getting schemas...');
-//
-//   client
-//     .query('SELECT table_schema,table_name FROM information_schema.tables;')
-//     .on('row', function(row) {
-//       // console.log(JSON.stringify(row));
-//     });
-// });
+pg.connect(herokuConnectionString, function(err, client) {
+  console.log(process.env.DATABASE_URL);
+  if (err) throw err;
+  console.log('Connected to postgres! Getting schemas...');
+
+  client
+    .query('SELECT table_schema,table_name FROM information_schema.tables;')
+    .on('row', function(row) {
+      // console.log(JSON.stringify(row));
+    });
+});
 
 var User = Connection.models.User;
 var userId;
