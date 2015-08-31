@@ -12,7 +12,7 @@ $(document).ready(function(){
     var checkId = $("#pinId").html()
     var notes = $(".editbox").val();
     $.ajax({
-      url: "http://localhost:3000/pins/"+checkId,
+      url: "/pins/"+checkId,
       type: "PATCH",
       dataType: "json",
       data: {"description": notes}
@@ -93,7 +93,7 @@ $(document).ready(function(){
             if(e.which == 13){
               var value = $(".editTitle").val();
               $.ajax({
-                url: "http://localhost:3000/pins/"+pinId,
+                url: "/pins/"+pinId,
                 type: "PATCH",
                 dataType: "json",
                 data: {"title": value}
@@ -109,7 +109,7 @@ $(document).ready(function(){
 
       $(".glyphicon-trash").on("click", function(){
         $.ajax({
-          url: "http://localhost:3000/pins/" + pinId,
+          url: "/pins/" + pinId,
           type: "DELETE",
           dataType: "json"
           // success: function(data){
@@ -137,7 +137,7 @@ $(document).ready(function(){
     var isRed = pinIsRed;
     var description = $(".description").val()
     $.ajax({
-      url: "http://localhost:3000/users/"+current_user+"/pins",
+      url: "/users/"+current_user+"/pins",
       type: "POST",
       dataType: "json",
       data: {"title": title, "latitude": latitude, "longitude": longitude, "userId": current_user, "isRed": isRed, "description": description}
