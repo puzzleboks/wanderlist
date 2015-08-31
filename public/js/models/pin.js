@@ -10,7 +10,7 @@ var Pin = function(info){
 
 
 Pin.whichUser = function(){
-  var request = $.getJSON("http://localhost:3000/auth/twitter/show")
+  var request = $.getJSON("/auth/twitter/show")
   .then(function(response){
     if(response.userId){
       var userId = response.userId
@@ -23,7 +23,7 @@ Pin.whichUser = function(){
   return request
 }
 Pin.fetch = function(userId){
-  var request = $.getJSON("http://localhost:3000/auth/twitter/show")
+  var request = $.getJSON("/auth/twitter/show")
   .then(function(response){
     if(response.userId){
       var userId = response.userId
@@ -33,7 +33,7 @@ Pin.fetch = function(userId){
     }
     return userId;
   }).then(function(userId){
-    var request = $.getJSON("http://localhost:3000/users/"+userId+"/pins/")
+    var request = $.getJSON("/users/"+userId+"/pins/")
     .then(function(response) {
       var pins = [];
       for(var i = 0; i < response.length; i++){
@@ -49,7 +49,7 @@ Pin.fetch = function(userId){
   return request;
 }
 Pin.show = function(pinId){
-  var request = $.getJSON("http://localhost:3000/pins/"+pinId)
+  var request = $.getJSON("/pins/"+pinId)
   .then(function(response) {
     return response
   }).fail(function(response){
@@ -58,7 +58,7 @@ Pin.show = function(pinId){
   return request;
 }
 Pin.getPhotos = function(pinId){
-  var request = $.getJSON("http://localhost:3000/pins/"+pinId+"/photos/")
+  var request = $.getJSON("/pins/"+pinId+"/photos/")
   .then(function(response) {
     return response
   }).fail(function(response){
