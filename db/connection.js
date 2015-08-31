@@ -6,7 +6,10 @@ if (process.env.herokuConnectionString) {
   sequelize = new Sequelize(process.env.herokuConnectionString, {
     dialect:  'postgres',
     protocol: 'postgres',
-    logging:  true //false
+    logging:  true //false,
+    dialectOptions: {
+        ssl: true
+    }
   });
 } else {
   // the application is executed on the local machine
