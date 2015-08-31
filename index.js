@@ -41,9 +41,10 @@ app.use("/", pinsController);
 app.use("/", photosController);
 
 app.set('port', process.env.PORT || 3000);
-app.listen(app.get('port'), function(){
-  console.log("listening on port 3000")
-});
+
+app.listen(process.env.PORT || 3000, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });
 
 var passport = require("passport");
 var TwitterStrategy = require("passport-twitter").Strategy;
@@ -73,10 +74,6 @@ app.use(require("express-session")({ secret: "keyboard cat", resave: true, saveU
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// app.get("/", function(req, res) {
-//   res.send("<a href='/auth/twitter/login'>Login</a>");
-// });
 
 app.get("/auth/twitter/login", passport.authenticate("twitter"));
 
