@@ -2,9 +2,30 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var path = require("path");
+
 var Connection = require("./db/connection");
 var User = Connection.models.User;
 var userId;
+var pg = require('pg');
+var fs = require("fs")
+if (fs.existsSync("./env.js")){
+  console.log("yes")
+  var env = require("./env");
+}
+else {
+  var env = process.env;
+}
+
+pg.connect(process.env.DATABASE_URL, function(err, client) {
+  if (err) throw err;
+  console.log('Connected to postgres! Getting schemas...');
+
+  client
+    .query('SELECT table_schema,table_name FROM information_schema.tables;')
+    .on('row', function(row) {
+      // console.log(JSON.stringify(row));
+    });
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,15 +40,14 @@ app.use("/", usersController);
 app.use("/", pinsController);
 app.use("/", photosController);
 
+app.set('port', process.env.PORT || 3000);
+app.listen(app.get('port'), function(){
+  console.log("listening on port 3000")
+});
+
 var passport = require("passport");
 var TwitterStrategy = require("passport-twitter").Strategy;
-var fs = require("fs")
-if (fs.existsSync("./env.js")){
-  var env = require("./env");
-}
-else {
-  var env = process.env;
-}
+
 passport.use(new TwitterStrategy(
   {
     consumerKey: env.twitterConsumerKey,
@@ -63,11 +83,18 @@ app.get("/auth/twitter/login", passport.authenticate("twitter"));
 app.get("/auth/twitter/callback",
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   function(req, res) {
+    // console.log(req.session)
+    // console.log(req.session.passport.user.id)
+    // console.log("HELLLLLOOOOOOOOOO")
+    console.log("------------------------------------------------")
+    console.log("req.session.passport.user.id: "+req.session.passport.user.id)
+    console.log("------------------------------------------------")
     User.find({
       where: {
         "twitter_id": req.session.passport.user.id
       }
     }).then(function(user){
+      console.log(user);
       if(!user){
         User.create({
           twitter_id: req.session.passport.user.id
@@ -110,8 +137,4 @@ app.get('/signout', function(req, res){
 
 app.get("/", function(req, res){
   res.render("index", {userId: userId})
-});
-
-app.listen(process.env.PORT || 3000, function(){
-  console.log("Whee, I'm working!");
 });
