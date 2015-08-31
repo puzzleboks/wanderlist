@@ -9,6 +9,7 @@ app.use(session({
 
 var Connection = require("./db/connection");
 var pg = require('pg');
+var db = require("./db/connection");
 var fs = require("fs")
 
 pg.connect(process.env.DATABASE_URL, function(err, client) {
