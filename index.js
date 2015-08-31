@@ -89,7 +89,7 @@ app.use(function(req, res, callback){
 })
 
 app.get("/", function(req, res){
-  res.render("index", {userId: userId})
+  res.render("index", {})
 });
 
 app.get("/auth/twitter/login", passport.authenticate("twitter"));
