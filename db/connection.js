@@ -1,9 +1,9 @@
 var Sequelize = require("sequelize");
 var sequelize = new Sequelize("postgres:///wanderlist");
 
-if (herokuConnectionString) {
+if (env.herokuConnectionString) {
   // the application is executed on Heroku ... use the postgres database
-  sequelize = new Sequelize(herokuConnectionString, {
+  sequelize = new Sequelize(env.herokuConnectionString, {
     dialect:  'postgres',
     protocol: 'postgres',
     logging:  true //false
