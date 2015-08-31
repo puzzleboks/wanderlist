@@ -40,8 +40,6 @@ app.use("/", usersController);
 app.use("/", pinsController);
 app.use("/", photosController);
 
-app.set('port', process.env.PORT || 3000);
-
 app.listen(process.env.PORT || 3000, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
