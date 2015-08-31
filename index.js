@@ -11,8 +11,8 @@ var Connection = require("./db/connection");
 var pg = require('pg');
 var fs = require("fs")
 
-pg.connect(herokuConnectionString, function(err, client) {
-  console.log(process.env.DATABASE_URL);
+pg.connect(process.env.herokuConnectionString, function(err, client) {
+  console.log(process.env.herokuConnectionString);
   if (err) throw err;
   console.log('Connected to postgres! Getting schemas...');
 
