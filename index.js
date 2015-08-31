@@ -2,19 +2,14 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var path = require("path");
+var session = require("express-session");
+app.use(session({
+  secret: "keyboard cat"
+}))
 
 var Connection = require("./db/connection");
-var User = Connection.models.User;
-var userId;
 var pg = require('pg');
 var fs = require("fs")
-if (fs.existsSync("./env.js")){
-  console.log("yes")
-  var env = require("./env");
-}
-else {
-  var env = process.env;
-}
 
 pg.connect(process.env.DATABASE_URL, function(err, client) {
   if (err) throw err;
@@ -27,10 +22,22 @@ pg.connect(process.env.DATABASE_URL, function(err, client) {
     });
 });
 
+var User = Connection.models.User;
+var userId;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/public", express.static(path.join(__dirname + "/public")));
 app.set("view engine", "hbs");
+
+if (fs.existsSync("./env.js")){
+  console.log("yes")
+  var env = require("./env");
+}
+else {
+  var env = process.env;
+}
+
 
 var usersController = require("./controllers/users");
 var pinsController = require("./controllers/pins");
@@ -53,25 +60,37 @@ passport.use(new TwitterStrategy(
     consumerSecret: env.twitterConsumerSecret,
     callbackURL: env.twitterCallbackUrl
   },
-  function(token, tokenSecret, profile, cb){
-    return cb(null, profile);
+  function(token, tokenSecret, profile, done){
+    return done(null, profile);
   }
 ));
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user);
+passport.serializeUser(function(user, done) {
+  done(null, user);
 });
 
-passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
 });
 
 app.use(require("cookie-parser")());
 app.use(require("body-parser").urlencoded({ extended: true }));
-app.use(require("express-session")({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+app.use(function(req, res, callback){
+   if (req.user){
+       res.locals.user = req.user
+      //  set up middleware to talk between the database and your browser
+   }
+   callback();
+})
+
+app.get("/", function(req, res){
+  res.render("index", {userId: userId})
+});
 
 app.get("/auth/twitter/login", passport.authenticate("twitter"));
 
@@ -109,13 +128,7 @@ app.get("/auth/twitter/callback",
   }
 );
 
-app.use(function(req, res, callback){
-   if (req.user){
-       res.locals.user = req.user
-      //  set up middleware to talk between the database and your browser
-   }
-   callback();
-})
+
 
 app.get("/auth/twitter/show", function(req, res){
   if(userId){
@@ -129,7 +142,3 @@ app.get('/signout', function(req, res){
   userId = null;
   res.redirect("/")
 })
-
-app.get("/", function(req, res){
-  res.render("index", {userId: userId})
-});
