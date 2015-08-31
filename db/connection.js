@@ -10,7 +10,7 @@ if (process.env.DATABASE_URL) {
   });
 } else {
   // the application is executed on the local machine
-  sequelize = new Sequelize("postgres:///playlistr_db");
+  sequelize = new Sequelize("postgres:///wanderlist");
 }
 
 var User = sequelize.import("../models/user");
