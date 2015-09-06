@@ -29,6 +29,15 @@ Pin.whichUser().then(function(userId){
     })
   })
 
+  // fix mapbox's glitchy height property - can't set 100% for some reason in css
+
+  $('#map').css("height", ($(window).height() - 50));
+  $(window).on("resize", resize);
+  resize();
+  function resize(){
+    $('#map').css("height", ($(window).height()) - 50);
+  }
+
   //  add search bar functionality to add red pin
 
   $(".form-control").on("keypress", function(e){
@@ -49,6 +58,7 @@ Pin.whichUser().then(function(userId){
 
         var marker = new MarkerView(pin);
         WorldMap.renderMarker(marker)
+        WorldMap.map.setView([current_latitude, current_longitude], 6)
       }).fail(function(response){
         console.log("failed to load coordinates from search");
       })
