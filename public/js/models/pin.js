@@ -1,6 +1,6 @@
 var Pin = function(info){
-  this.id = info.id;
-  this.title = info.title;
+  this.id = info.id || "?";
+  this.title = info.title || "New Pin!";
   this.latitude = info.latitude || 13.5333;
   this.longitude = info.longitude || 2.0833;
   this.userId = info.userId || current_user;
@@ -48,7 +48,7 @@ Pin.fetch = function(userId){
   })
   return request;
 }
-Pin.show = function(pinId){
+Pin.getInfo = function(pinId){
   var request = $.getJSON("/pins/"+pinId)
   .then(function(response) {
     return response

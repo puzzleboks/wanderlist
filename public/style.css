@@ -27,7 +27,7 @@ html, body{
 
 #map {
   width: 100%;
-  height: 732px;
+  min-height: 600px;
 }
 
 .overlay {

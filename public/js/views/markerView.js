@@ -20,7 +20,6 @@ var MarkerView = function(pin){
     this.marker = L.marker([pin.latitude, pin.longitude], {
       icon: redPin,
       draggable: true,
-      clickable: true,
       title: pin.title + " id" + pin.id,
       longDesc: "[pin.latitude, pin.longitude]"
     })
@@ -29,7 +28,6 @@ var MarkerView = function(pin){
   else {
     this.marker = L.marker([pin.latitude, pin.longitude], {
       icon: greenPin,
-      clickable: true,
       draggable: true,
       title: pin.title + " id" + pin.id,
     })
