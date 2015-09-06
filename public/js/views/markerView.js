@@ -24,6 +24,7 @@ var MarkerView = function(pin){
       title: pin.title + " id" + pin.id,
       longDesc: "[pin.latitude, pin.longitude]"
     })
+    this.marker.wanderlist_pin = pin;
   }
   else {
     this.marker = L.marker([pin.latitude, pin.longitude], {
