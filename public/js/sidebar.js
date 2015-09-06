@@ -33,17 +33,8 @@ $(document).ready(function(){
     var temp = event.target.title.split(" id")
     var pinId = temp[1]
     console.log(event.target.title)
-    if(pinId == "?"){
-      $(".popup_bar").show();
-      $(".saveButton").show()
-      $(".photos").html("<img class='changePhotoToOpaque' src='http://www.backpaco.com/wp-content/uploads/2015/04/yosemite-park.jpg'><div class='changeUrlBar'><input type='text' placeholder='Enter Photo URL' class='changeUrl'></div>'")
-      $(".title").html("<input type='text' placeholder='New Pin'>");
-      $(".description").val("What is on the agenda?")
-    }
-    else {
-      var sidebarView = new SidebarView(pinId)
-      sidebarView.render()
-    }
+    var sidebarView = new SidebarView(pinId)
+    sidebarView.render()
   }
   // function showAndRenderSidebar(){
   //   $(".popup_bar").show();

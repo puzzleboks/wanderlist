@@ -2,8 +2,8 @@ var MapView = function() {
   L.mapbox.accessToken = 'pk.eyJ1IjoiYWxleGJhbm5vbiIsImEiOiIzM2I3MWU4NjhlNjc5ODYzN2NjMWFhYzU4OWIzOGYzYiJ9.zVY-I01f5Pie1XCaA0Laog';
   // Create a map in the div #map
 
-  var southWest = L.latLng(-90, -180);
-  var northEast = L.latLng(90, 180);
+  var southWest = L.latLng(-90, -270);
+  var northEast = L.latLng(90, 270);
   var bounds = L.latLngBounds(southWest, northEast);
 
   this.map = L.mapbox.map('map', 'mapbox.streets', {
