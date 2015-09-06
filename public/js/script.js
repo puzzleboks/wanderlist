@@ -40,29 +40,34 @@ Pin.whichUser().then(function(userId){
 
   //  add search bar functionality to add red pin
 
-  $(".form-control").on("keypress", function(e){
+  $(".search_bar").on("keypress", function(e){
     if(e.which == 13){
       e.preventDefault();
       var user_search = $(".form-control").val()
       var request = $.getJSON("https://api.mapbox.com/v4/geocode/mapbox.places/"+user_search+".json?access_token=pk.eyJ1IjoiYWxleGJhbm5vbiIsImEiOiIzM2I3MWU4NjhlNjc5ODYzN2NjMWFhYzU4OWIzOGYzYiJ9.zVY-I01f5Pie1XCaA0Laog")
       .then(function(response){
-        var search_location = response.features[0].geometry.coordinates
-        var lat = search_location[1];
-        var long = search_location[0];
-        var pin = new Pin({
-          "latitude": lat,
-          "longitude": long,
-        })
-        current_latitude = lat;
-        current_longitude = long;
+        if(response.features.length == 0){
+          $(".search_bar").val("Location Not Found");
+        }
+        else {
+          var search_location = response.features[0].geometry.coordinates
+          var lat = search_location[1];
+          var long = search_location[0];
+          var pin = new Pin({
+            "latitude": lat,
+            "longitude": long,
+          })
+          current_latitude = lat;
+          current_longitude = long;
 
-        var marker = new MarkerView(pin);
-        WorldMap.renderMarker(marker)
-        WorldMap.map.setView([current_latitude, current_longitude], 6)
+          var marker = new MarkerView(pin);
+          WorldMap.renderMarker(marker)
+          WorldMap.map.setView([current_latitude, current_longitude], 6)
+        }
       }).fail(function(response){
         console.log("failed to load coordinates from search");
       })
-      $(".form-control").val("")
+      $(".search_bar").val("")
       pinIsRed = "t";
       // showAndRenderSidebar()
     }
