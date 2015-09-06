@@ -64,6 +64,7 @@ Pin.whichUser().then(function(userId){
       })
       $(".form-control").val("")
       pinIsRed = "t";
+      // showAndRenderSidebar()
     }
   })
 
@@ -74,6 +75,8 @@ Pin.whichUser().then(function(userId){
     WorldMap.renderMarker(marker)
     current_latitude = 13.5333;
     current_longitude = 2.0833;
+    WorldMap.map.setView([current_latitude, current_longitude], 3)
+    // showAndRenderSidebar()
   });
   $("#greenPinBtn").click(function() {
     var pin = new Pin({"isRed": "false"})
@@ -82,6 +85,8 @@ Pin.whichUser().then(function(userId){
     pinIsRed = "f";
     current_latitude = 13.5333;
     current_longitude = 2.0833;
+    WorldMap.map.setView([current_latitude, current_longitude], 3)
+    // showAndRenderSidebar()
   });
 
 })

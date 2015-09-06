@@ -28,7 +28,7 @@ $(document).ready(function(){
   }
 
   //show sidebar
-  $(".leaflet-marker-pane").on("click", function() {
+  function showAndRenderSidebar(){
     $(".popup_bar").show();
 
     //parse information built into marker and put in hidden div
@@ -127,7 +127,11 @@ $(document).ready(function(){
       $(".title").html("<input type='text' placeholder='New Pin'>");
       $(".description").val("What is on the agenda?")
     }
-  })
+  }
+
+  //run function on marker click
+  $(".leaflet-marker-pane").on("click", showAndRenderSidebar)
+
 
   //save new pin
   $(".saveButton").on("click", function() {
