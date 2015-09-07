@@ -5,41 +5,16 @@ var MapView = function() {
   // Create a map in the div #map
   this.map = L.mapbox.map('map', 'mapbox.streets').setView([13.5333, 2.0833], 3);
   this.map.scrollWheelZoom.disable();
+
+  // Add the marker layer groups to a leaflet control, and add to map in a checked state
   L.control.layers(null, {
     'Green Pins': greenMarkers.addTo(this.map),
     'Red Pins': redMarkers.addTo(this.map),
   },{position:'bottomleft'}).addTo(this.map);
-
-  
-  // myMap = this.map;
-
-  // addGreenLayer(greenMarkers);
-  // addRedLayer(redMarkers);
-
-  // function addGreenLayer(layer) {
-  //   myMap.addLayer(layer);
-  //   $('input[id="green_pins"]').click(function() {
-  //     if ( $(this).is(':checked') ) {
-  //       myMap.addLayer(layer);
-  //     }else{
-  //       myMap.removeLayer(layer);
-  //     }
-  //   });
-  // }
-  //
-  // function addRedLayer(layer) {
-  //   myMap.addLayer(layer);
-  //   $('input[id="red_pins"]').click(function() {
-  //     if ( $(this).is(':checked') ) {
-  //       myMap.addLayer(layer);
-  //     }else{
-  //       myMap.removeLayer(layer);
-  //     }
-  //   });
-  // }
 }
 
 MapView.prototype = {
+  // adds green makers to their layer group
   renderGreenMarker: function(marker) {
     var self = this;
     marker.marker.addTo(greenMarkers);
@@ -49,6 +24,7 @@ MapView.prototype = {
       current_longitude = temp.lng;
     });
   },
+  // adds red markers to their layer group
   renderMarker: function(marker) {
     var self = this;
     marker.marker.addTo(redMarkers);
