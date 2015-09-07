@@ -150,10 +150,10 @@ html, body{
   font: bold "Lucida Grande";
 }
 
-
 .photos > img {
   display: block;
-  width: 85%;
+  max-width: 85%;
+  height: 200px;
   margin: .2em auto 0 auto;
   padding-top: 2em;
   padding-bottom: 2em;
@@ -167,14 +167,13 @@ html, body{
   font-size: 1.2em;
   margin: 3em .25em 0 2em;
   width: 350px;
-  height: 200px;
   border: 1px solid #999999;
   padding: 5px;
 }
 .photos {
   position: relative;
   width: 85%;
-  height: auto;
+  height: 200px;
   margin-left: 2.5em;
 }
 .glyphicon-trash {

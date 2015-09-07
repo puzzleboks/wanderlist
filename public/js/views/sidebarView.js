@@ -5,7 +5,6 @@ var SidebarView = function(pinId){
 SidebarView.prototype = {
   render: function() {
     $(".popup_bar").show();
-    $(".photos").html("<img id='one_photo' src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png'>")
     if(this.pinId == "?"){
       $(".popup_bar").show();
       $(".saveButton").show()
