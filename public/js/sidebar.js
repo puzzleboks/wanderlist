@@ -157,11 +157,12 @@ $(document).ready(function(){
       var title = $(".title")
       if(!title.is(e.target) && title.has(e.target).length === 0){
         $(".clickable_title").html(value);
+        $(".clickable_title").off("click", switchTitle)
         $(".clickable_title").one("click", switchTitle)
       }
     })
   }
-  
+
   $(".clickable_title").one("click", switchTitle);
 
   //save new pin
