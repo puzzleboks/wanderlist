@@ -35,7 +35,7 @@ $(document).ready(function(){
     console.log(event.target.title)
     var sidebarView = new SidebarView(pinId)
     sidebarView.render()
-    new PhotoView(pinId, 1)
+    // new PhotoView(pinId, 1)
   }
   // function showAndRenderSidebar(){
   //   $(".popup_bar").show();
@@ -141,6 +141,28 @@ $(document).ready(function(){
   //run function on marker click
   $(".leaflet-marker-pane").on("click", showAndRenderSidebar);
 
+  //editable title
+  function switchTitle(){
+    var value = $(".clickable_title").html();
+    $(".clickable_title").html("<input class='editTitle' type='text' value='"+value+"'>")
+    $(".editTitle").on("keypress", function(e){
+      if(e.which == 13){
+        console.log("enter pressed")
+        var value = $(".editTitle").val();
+        $(".clickable_title").html(value)
+      }
+    })
+    $(".popup_bar").mouseup(function(e) {
+      var value = $(".editTitle").val();
+      var title = $(".title")
+      if(!title.is(e.target) && title.has(e.target).length === 0){
+        $(".clickable_title").html(value);
+        $(".clickable_title").one("click", switchTitle)
+      }
+    })
+  }
+  
+  $(".clickable_title").one("click", switchTitle);
 
   //save new pin
   $(".saveButton").on("click", function() {

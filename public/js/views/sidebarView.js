@@ -14,9 +14,16 @@ SidebarView.prototype = {
     }
     else{
       Pin.getInfo(this.pinId).then(function(response){
-        $(".title").html("<span class='clickable_title'>"+response.title+"</span>");
+        $(".clickable_title").html(response.title);
         $(".description").val(response.description);
       })
     }
+  },
+
+  closeSidebar: function() {
+    var title = $(".title").html()
+
+    $(".popup_bar").hide();
+
   }
 }
