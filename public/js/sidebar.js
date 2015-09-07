@@ -35,6 +35,7 @@ $(document).ready(function(){
     console.log(event.target.title)
     var sidebarView = new SidebarView(pinId)
     sidebarView.render()
+    new PhotoView(pinId, 1)
   }
   // function showAndRenderSidebar(){
   //   $(".popup_bar").show();

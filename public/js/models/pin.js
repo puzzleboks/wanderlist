@@ -29,6 +29,8 @@ Pin.fetch = function(userId){
       var userId = response.userId
     }
     else {
+      // a non logged in user gets to see the seed pins and play
+      // with the map before signing up
       var userId = 1;
     }
     return userId;

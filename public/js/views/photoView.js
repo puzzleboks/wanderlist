@@ -4,6 +4,6 @@ var PhotoView = function(pinId, photoId){
   .done(function(response){
     self.photoUrl = response.photoUrl;
     self.pinId = response.pinId;
-    $(".photos").html("<img src='"+self.photoUrl+"'>");
+    $("#one_photo").attr("src", self.photoUrl);
   })
 }
